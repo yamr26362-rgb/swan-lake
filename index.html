@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENG WAGEH | Guest Menu</title>
+    <style>
+        :root{--bg:#f4f1ec;--surface:#fff;--surface2:#f8f5f0;--ink:#171512;--muted:#817a71;--line:#e9e2d8;--accent:#b97832;--accent2:#d69a55;--dark:#171614;--success:#2f8b63;--danger:#bd4d4d}
+        *{box-sizing:border-box;font-family:Inter,Segoe UI,Arial,sans-serif}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#f1eee8 0,#f8f6f2 34%,#f4f1ec 100%);color:var(--ink);min-height:100vh}button,input{font:inherit}
+        .header{position:relative;overflow:hidden;background:#151412;color:#fff;padding:28px 22px 70px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.16)}
+        .header:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.28)),url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1800&q=85') center/cover;opacity:.82}
+        .header:after{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(214,154,85,.22);border-radius:50%;top:-300px;right:-120px;box-shadow:0 0 0 70px rgba(214,154,85,.025),0 0 0 140px rgba(214,154,85,.018)}
+        .brand-wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center}.brand-mark{display:flex;align-items:center;justify-content:center;width:58px;height:58px;border:1px solid rgba(214,154,85,.8);border-radius:18px;color:#e2aa6b;font-size:25px;font-weight:900;letter-spacing:-2px;background:rgba(20,19,17,.55);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:13px}.header h1{margin:0;font-size:30px;letter-spacing:4px;font-weight:850}.header p{margin:9px 0 0;color:#ddd5ca;font-size:12px;letter-spacing:1.3px;text-transform:uppercase}
+        .info-bar{position:relative;z-index:5;display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:-30px auto 20px;width:min(92%,760px);padding:10px;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.8);border-radius:18px;box-shadow:0 15px 35px rgba(40,30,20,.11);backdrop-filter:blur(15px)}.info-pill{padding:10px 15px;border-radius:12px;background:var(--surface2);font-size:11px;font-weight:800;color:#5f574e;border:1px solid #eee7de}
+        .section-head{width:min(92%,1160px);margin:0 auto;padding:8px 0 10px;display:flex;justify-content:space-between;align-items:end}.section-head h2{margin:0;font-size:22px;letter-spacing:-.4px}.section-head span{font-size:11px;color:var(--muted)}
+        .categories{width:min(92%,1160px);margin:auto;display:flex;gap:8px;overflow-x:auto;padding:5px 0 16px;scrollbar-width:none}.categories::-webkit-scrollbar{display:none}.cat-btn{background:rgba(255,255,255,.82);color:#625b53;border:1px solid var(--line);padding:10px 17px;border-radius:999px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap;transition:.2s;box-shadow:0 3px 10px rgba(0,0,0,.025)}.cat-btn:hover{border-color:#d5b48f;transform:translateY(-1px)}.cat-btn.active{background:var(--dark);color:#fff;border-color:var(--dark);box-shadow:0 7px 18px rgba(0,0,0,.14)}
+        .menu-container{width:min(92%,1160px);margin:auto;padding:8px 0 125px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.product-card{background:var(--surface);border:1px solid #e9e3da;border-radius:22px;overflow:hidden;box-shadow:0 7px 25px rgba(40,30,20,.055);transition:transform .22s,box-shadow .22s,border-color .22s;display:flex;flex-direction:column}.product-card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(40,30,20,.12);border-color:#dfcbb4}.product-image-wrap{position:relative;height:205px;background:#e8e1d7;overflow:hidden}.product-img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .45s}.product-card:hover .product-img{transform:scale(1.045)}.image-shade{position:absolute;inset:auto 0 0;height:70px;background:linear-gradient(transparent,rgba(0,0,0,.35));pointer-events:none}.product-badge{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.93);color:#6d4a2b;padding:7px 10px;border-radius:999px;font-size:10px;font-weight:900;box-shadow:0 5px 15px rgba(0,0,0,.1)}.product-body{padding:14px 15px 15px;display:flex;flex-direction:column;gap:12px;flex:1}.product-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.product-details{min-width:0}.product-details h4{margin:0;font-size:15px;line-height:1.35;font-weight:850}.product-details p{margin:6px 0 0;color:var(--accent);font-weight:900;font-size:14px}.product-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto}
+.item-note-wrap{display:none;margin-top:2px}
+.item-note-wrap.open{display:block}
+.item-note-input{width:100%;min-height:48px;resize:vertical;border:1px solid #e6ddd3;border-radius:12px;padding:9px 10px;background:#fbfaf8;color:var(--ink);font-size:11px;outline:none}
+.item-note-input:focus{border-color:#c9955c;box-shadow:0 0 0 3px rgba(185,120,50,.10);background:#fff}
+.item-note-btn{border:1px solid #e7ddd1;background:#faf7f2;color:#8a5b32;border-radius:10px;padding:8px 10px;font-size:10px;font-weight:850;cursor:pointer}
+.item-note-btn.has-note{background:#fff1df;border-color:#dfb47d;color:#9a5d20}
+.live-session-bar{width:min(92%,1160px);margin:0 auto 12px;background:#fff;border:1px solid #eadfd2;border-radius:18px;padding:11px 14px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 7px 20px rgba(40,30,20,.05);font-size:11px}
+.live-session-bar.show{display:flex}
+.live-session-main{font-weight:900}.live-session-add{color:#9a5d20;font-weight:800}
+.price-label{font-size:10px;color:var(--muted);font-weight:700}.counter-box{display:flex;align-items:center;gap:5px;padding:4px;background:#f5f2ed;border:1px solid #ebe4da;border-radius:13px}.counter-btn{width:30px;height:30px;border-radius:9px;border:0;font-size:17px;font-weight:900;cursor:pointer;background:#fff;color:#555;box-shadow:0 2px 6px rgba(0,0,0,.05)}.counter-btn.plus{background:var(--dark);color:#fff}.counter-btn.minus{color:#777}.qty-val{font-weight:900;font-size:12px;min-width:20px;text-align:center}
+        .footer-bar{position:fixed;bottom:0;left:0;width:100%;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);padding:11px max(4%,20px);display:flex;justify-content:space-between;align-items:center;gap:15px;border-top:1px solid var(--line);box-shadow:0 -10px 30px rgba(0,0,0,.08);z-index:999}.total-label{font-size:9px;color:var(--muted);display:block;margin-bottom:3px;letter-spacing:1px;font-weight:800}.total-value{font-size:22px;font-weight:950;color:var(--ink)}.send-btn{background:var(--dark);color:#fff;border:0;padding:13px 25px;border-radius:13px;font-weight:850;font-size:12px;cursor:pointer;transition:.2s;box-shadow:0 8px 18px rgba(0,0,0,.13)}.send-btn:hover{background:#292725;transform:translateY(-1px)}
+        .table-modal{position:fixed;inset:0;background:rgba(10,9,8,.76);display:flex;justify-content:center;align-items:center;z-index:9999;padding:20px;backdrop-filter:blur(10px)}.modal-content{background:#fff;padding:30px 27px;border-radius:26px;width:min(100%,400px);text-align:left;box-shadow:0 30px 90px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.5)}.modal-brand{font-size:10px;letter-spacing:2px;color:var(--accent);font-weight:950;margin-bottom:8px}.modal-content h3{margin:0;color:var(--ink);font-size:25px}.modal-content .modal-copy{color:var(--muted);font-size:12px;line-height:1.6;margin:8px 0 18px}.modal-content input{width:100%;padding:13px 14px;margin:6px 0;border:1px solid var(--line);border-radius:12px;font-size:13px;text-align:left;outline:none;background:#faf9f7}.modal-content input:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(185,120,50,.12)}.modal-content button{width:100%;padding:13px;background:var(--dark);color:#fff;border:0;border-radius:12px;font-size:13px;font-weight:850;cursor:pointer;margin-top:10px}.tracking-screen{position:fixed;inset:0;background:linear-gradient(180deg,#f7f3ed 0,#fbfaf8 100%);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow:auto;z-index:10000;padding:28px 16px 40px;text-align:center}
+.tracking-card{width:min(100%,520px);background:#fff;border:1px solid #eadfd2;border-radius:28px;box-shadow:0 20px 60px rgba(48,34,20,.12);padding:24px 20px;margin:auto}
+.tracking-screen h2{font-size:28px;margin:0 0 7px;letter-spacing:-.6px}
+.tracking-subtitle{font-size:12px;color:var(--muted);margin-bottom:18px}
+.status-badge{background:#fff4df;color:#9a5d20;font-weight:850;padding:10px 18px;border-radius:999px;font-size:13px;margin:12px 0;border:1px solid #ead3b2;display:inline-flex;align-items:center;gap:7px}
+.invoice-box{margin:16px 0 12px;background:#fcfaf7;border:1px solid #eee3d7;border-radius:20px;padding:16px;text-align:left}
+.invoice-head{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px dashed #ded3c7;padding-bottom:12px;margin-bottom:10px}
+.invoice-head strong{font-size:13px}.invoice-head span{font-size:10px;color:var(--muted);font-weight:800}
+.invoice-row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;font-size:12px;color:#5f574e}
+.invoice-row strong{color:var(--ink)}
+.invoice-total{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e9dfd4;margin-top:8px;padding-top:12px;font-size:15px;font-weight:950}
+.invoice-note{font-size:10px;color:var(--muted);margin-top:9px}
+.tracking-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.add-more-btn,.bill-btn{border:0;padding:13px 14px;border-radius:14px;font-weight:900;cursor:pointer;font-size:12px}
+.add-more-btn{background:#171614;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.1)}
+.bill-btn{background:#fff1e5;color:#a45318;border:1px solid #efcfad;margin:0}
+.feedback-box{margin-top:16px;background:linear-gradient(145deg,#fffaf4,#fff);border:1px solid #ead8c5;border-radius:22px;padding:18px;text-align:center;box-shadow:0 10px 30px rgba(64,44,23,.06)}
+.feedback-kicker{font-size:10px;letter-spacing:1.5px;color:var(--accent);font-weight:950;text-transform:uppercase}
+.feedback-box h3{margin:5px 0 5px;font-size:20px}.feedback-box p{margin:0 0 13px;color:var(--muted);font-size:11px}
+.feedback-stars{display:flex;justify-content:center;gap:5px;margin:7px 0 13px}
+.feedback-star{width:42px;height:42px;border-radius:13px;border:1px solid #eadfd4;background:#faf8f5;color:#cfc4b8;font-size:24px;cursor:pointer;transition:.15s}
+.feedback-star.active{background:#fff1dc;color:#d28a36;border-color:#e6bd88;transform:translateY(-2px)}
+.feedback-box textarea{width:100%;min-height:82px;resize:vertical;border:1px solid #e6ddd3;border-radius:14px;padding:11px 12px;outline:none;background:#fff;color:var(--ink);font-size:12px}
+.feedback-box textarea:focus{border-color:#c9955c;box-shadow:0 0 0 3px rgba(185,120,50,.10)}
+.feedback-submit{width:100%;border:0;border-radius:14px;padding:13px;margin-top:10px;background:#171614;color:#fff;font-weight:900;cursor:pointer}
+.feedback-submit:disabled{opacity:.55;cursor:not-allowed}
+.feedback-done{display:none;margin-top:10px;color:#2f8b63;font-weight:850;font-size:12px}
+.addition-note{font-size:10px;color:#9a5d20;margin-top:9px}
+.order-note-view{margin-top:10px;background:#f7f2ec;border:1px solid #e9ddd0;border-radius:12px;padding:10px 12px;text-align:left;color:#675e55;font-size:11px}
+.order-note-view b{color:#29241f}
+.recommendation-box{margin-top:16px;background:linear-gradient(145deg,#fff8ed,#fff);border:1px solid #ead8c0;border-radius:20px;padding:16px;text-align:left}
+.recommendation-kicker{font-size:9px;letter-spacing:1.7px;color:#b56d2b;font-weight:950}
+.recommendation-box h3{margin:5px 0 3px;font-size:18px}.recommendation-box p{margin:0 0 10px;color:#84796e;font-size:10px}
+.recommendation-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.recommendation-item{display:flex;justify-content:space-between;gap:8px;align-items:center;background:#fff;border:1px solid #eadfd4;border-radius:13px;padding:9px}
+.recommendation-item-name{font-size:11px;font-weight:850;color:#302b26}.recommendation-item-price{font-size:10px;color:#a45c22;font-weight:900}
+.recommendation-add{border:0;background:#171614;color:#fff;border-radius:9px;padding:7px 9px;font-size:10px;font-weight:900;cursor:pointer}
+@media(max-width:600px){.recommendation-list{grid-template-columns:1fr}}
+
+@media(max-width:600px){.tracking-card{border-radius:24px;padding:20px 14px}.tracking-actions{grid-template-columns:1fr}.feedback-star{width:44px;height:44px}}
+</style>
+</head>
+<body>
+
+<div class="table-modal" id="tableModal">
+    <div class="modal-content">
+        <div class="modal-brand">ENG WAGEH • GUEST MENU</div>
+        <h3>Welcome 👋</h3>
+        <div id="newUserFields">
+            <p id="modalHintText" class="modal-copy">Enter your details to start your order.</p>
+            <input type="text" id="userNameInput" placeholder="Your name">
+        </div>
+        <div id="returningUserFields" style="display:none;margin-bottom:15px;">
+            <h4 style="margin:0 0 5px;">Welcome back, <span id="savedCustomerName" style="color:var(--accent-dark);"></span></h4>
+            <p class="modal-copy" style="margin:0;">Enter your table number to continue.</p>
+        </div>
+        <input type="number" id="tableInput" min="1" max="50" placeholder="Table number (1–50)">
+        <button onclick="saveCustomerData()">View Menu & Start Order</button>
+    </div>
+</div>
+
+<div class="header">
+    <div class="brand-mark">W</div>
+    <h1>ENG WAGEH</h1>
+    <p>Premium Café & Restaurant Experience</p>
+</div>
+
+<div class="info-bar">
+    <span class="info-pill" id="branchDisplay">Branch: main</span>
+    <span class="info-pill" id="tableDisplay">Table: Not selected</span>
+</div>
+
+<div class="section-head"><h2>Our Menu</h2><span>Freshly prepared • Order at your table</span></div>
+<div class="live-session-bar" id="liveSessionBar"><span class="live-session-main" id="liveSessionMain"></span><span class="live-session-add" id="liveSessionAdd"></span></div>
+<div class="categories">
+    <button class="cat-btn active" onclick="filterCategory('all', this)">All</button>
+    <button class="cat-btn" onclick="filterCategory('coffee', this)">Coffee & Drinks</button>
+    <button class="cat-btn" onclick="filterCategory('cake', this)">Desserts</button>
+    <button class="cat-btn" onclick="filterCategory('sandwich', this)">Sandwiches</button>
+    <button class="cat-btn" onclick="filterCategory('pasta', this)">Pasta</button>
+    <button class="cat-btn" onclick="filterCategory('soup', this)">Soups</button>
+</div>
+
+<div class="menu-container" id="menuGrid"></div>
+
+
+<div class="footer-bar">
+    <div>
+        <span class="total-label">ORDER TOTAL</span>
+        <span id="totalPriceDisplay" class="total-value">0 EGP</span>
+    </div>
+    <div class="order-note-input-wrap" style="margin:10px 0;text-align:left;">
+                <label style="font-size:11px;font-weight:850;color:#6f655b;">📝 Order note (optional)</label>
+                <textarea id="orderNoteInput" placeholder="مثلاً: بدون سكر، صوص إضافي، أو أي ملاحظة للمطبخ..." style="width:100%;min-height:55px;margin-top:6px;box-sizing:border-box;border:1px solid #e6ddd3;border-radius:12px;padding:10px;background:#fff;font-size:12px;resize:vertical;"></textarea>
+            </div>
+<button class="send-btn" onclick="submitOrder()">Place Order&nbsp; →</button>
+</div>
+
+<div class="tracking-screen" id="trackingScreen">
+    <div class="tracking-card">
+        <div style="font-size:28px;margin-bottom:4px;">☕</div>
+        <h2 id="trackingTitle">Order Tracking</h2>
+        <div class="tracking-subtitle">Your table order is live. You can add more items anytime.</div>
+        <div id="orderNumberLive" style="font-size:11px;color:#8a8178;font-weight:850;"></div>
+        <div class="status-badge" id="orderStatusLive">Waiting...</div>
+
+        <div class="invoice-box" id="invoiceBox">
+            <div class="invoice-head">
+                <strong>🧾 Order Summary</strong>
+                <span id="invoiceBranchName">Branch</span>
+            </div>
+            <div id="invoiceItems"></div>
+            <div class="invoice-total">
+                <span>Total</span><strong id="invoiceTotal">0 EGP</strong>
+            </div>
+            <div class="invoice-note">The final bill is prepared by the branch team.</div>
+        </div>
+
+        <div class="tracking-actions">
+            <button class="add-more-btn" id="addMoreBtn" onclick="continueOrdering()">➕ Add More</button>
+            <button class="bill-btn" onclick="requestBill()">Request Bill 💸</button>
+        </div>
+        <div class="addition-note" id="additionNote"></div>
+        <div class="order-note-view" id="orderNoteView" style="display:none;"></div>
+        <div class="recommendation-box" id="recommendationBox" style="display:none;">
+            <div class="recommendation-kicker">YOU MAY ALSO LIKE</div>
+            <h3>☕ Complete Your Order</h3>
+            <p id="recommendationText">Something sweet goes perfectly with your drink.</p>
+            <div class="recommendation-list" id="recommendationList"></div>
+        </div>
+
+        <div class="feedback-box" id="feedbackBox" style="display:none;">
+            <div class="feedback-kicker">Your Experience</div>
+            <h3>How was your visit? ❤️</h3>
+            <p>Your feedback helps us improve the experience.</p>
+            <div class="feedback-stars" id="feedbackStars">
+                <button class="feedback-star" data-rating="1" onclick="setRating(1)">★</button>
+                <button class="feedback-star" data-rating="2" onclick="setRating(2)">★</button>
+                <button class="feedback-star" data-rating="3" onclick="setRating(3)">★</button>
+                <button class="feedback-star" data-rating="4" onclick="setRating(4)">★</button>
+                <button class="feedback-star" data-rating="5" onclick="setRating(5)">★</button>
+            </div>
+            <textarea id="feedbackComment" placeholder="Tell us what you liked or what we can improve..."></textarea>
+            <button class="feedback-submit" onclick="submitFeedback()">Send Feedback</button>
+            <div class="feedback-done" id="feedbackDone">Thanks for your feedback ❤️</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDBuBOcY9mbCXZIVIhkTjOhaor4VsrTPx8",
+        authDomain: "scan-order-system.firebaseapp.com",
+        projectId: "scan-order-system",
+        storageBucket: "scan-order-system.firebasestorage.app",
+        messagingSenderId: "1066014113516",
+        appId: "1:1066014113516:web:61ef0f2dc366b0e9d8afc9",
+        databaseURL: "https://scan-order-system-default-rtdb.firebaseio.com"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let branchName = urlParams.get('branch') || "Swan Lake";        
+    let tableNumber = null; 
+    let customerName = localStorage.getItem('customerName') || null; 
+
+    document.getElementById('branchDisplay').innerText = "Branch: " + branchName;
+
+    const cart = {};
+    const itemNotes = {};
+    const catalogProducts = {};
+    const fallbackProducts = [{"id": "p1", "category": "coffee", "name": "إسبريسو سينجل", "price": 40, "image": "https://images.unsplash.com/photo-1510707513156-46c49f8098a1?w=150"}, {"id": "p2", "category": "coffee", "name": "لاتيه ميكاتو", "price": 65, "image": "https://images.unsplash.com/photo-1570968915860-54d5c301fc9f?w=150"}, {"id": "p3", "category": "coffee", "name": "كابتشينو فوم", "price": 60, "image": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=150"}, {"id": "p4", "category": "coffee", "name": "أمريكانو بلاك", "price": 50, "image": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150"}, {"id": "p5", "category": "coffee", "name": "سبانيش لاتيه بارد", "price": 75, "image": "https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=150"}, {"id": "p6", "category": "coffee", "name": "آيس كراميل ماكياتو", "price": 80, "image": "https://images.unsplash.com/photo-1596078841242-12f73dc697c6?w=150"}, {"id": "p7", "category": "coffee", "name": "شوكولاتة ساخنة", "price": 55, "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=150"}, {"id": "p8", "category": "coffee", "name": "ميكس ترافل شيك", "price": 85, "image": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=150"}, {"id": "p9", "category": "coffee", "name": "عصير ليمون نعناع", "price": 45, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=150"}, {"id": "p10", "category": "coffee", "name": "موجيتو بلوبيري", "price": 70, "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=150"}, {"id": "p11", "category": "cake", "name": "مولتن كيك شوكولاتة", "price": 90, "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=150"}, {"id": "p12", "category": "cake", "name": "تشيز كيك فريز", "price": 85, "image": "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=150"}, {"id": "p13", "category": "cake", "name": "سينابون رول كلاسيك", "price": 70, "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=150"}, {"id": "p14", "category": "cake", "name": "وافل نوتيلا كامل", "price": 80, "image": "https://images.unsplash.com/photo-1562376502-6f769499c886?w=150"}, {"id": "p15", "category": "cake", "name": "كب كيك فانيليا", "price": 35, "image": "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=150"}, {"id": "p16", "category": "cake", "name": "كب كيك لوتس دبل", "price": 45, "image": "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?w=150"}, {"id": "p17", "category": "cake", "name": "براونيز كيك فادج", "price": 60, "image": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=150"}, {"id": "p18", "category": "cake", "name": "تارت ليمون فرنسي", "price": 65, "image": "https://images.unsplash.com/photo-1519869325930-281384150729?w=150"}, {"id": "p19", "category": "cake", "name": "بان كيك ميكس صوص", "price": 75, "image": "https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=150"}, {"id": "p20", "category": "cake", "name": "قطعة ريد فيلفيت", "price": 70, "image": "https://images.unsplash.com/photo-1616541823729-00fe0aacd32c?w=150"}, {"id": "p21", "category": "sandwich", "name": "سندوتش كلوب دجاج", "price": 85, "image": "https://images.unsplash.com/photo-1567234669003-dce7a7a88821?w=150"}, {"id": "p22", "category": "sandwich", "name": "سندوتش تونة مايونيز", "price": 75, "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=150"}, {"id": "p23", "category": "sandwich", "name": "برجر بقري كلاسيك", "price": 110, "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150"}, {"id": "p24", "category": "pasta", "name": "باستا وايت صوص دجاج", "price": 120, "image": "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=150"}, {"id": "p25", "category": "pasta", "name": "باستا ريد صوص سجق", "price": 115, "image": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=150"}, {"id": "p26", "category": "soup", "name": "شوربة كريمة بالدجاج", "price": 55, "image": "https://images.unsplash.com/photo-1607532941433-304659e8198a?w=150"}, {"id": "p27", "category": "soup", "name": "شوربة لسان عصفور", "price": 40, "image": "https://images.unsplash.com/photo-1547592165-e1d17fed6005?w=150"}];
+    let currentOrderNumber = null;
+
+    function productIsAvailable(p) {
+        return p.available === true || p.isAvailable === true || p.active === true || p.visible === true;
+    }
+
+    function normalizeProduct(id, p) {
+        return {
+            id: id,
+            name: p.name || p.product || 'Unnamed Product',
+            price: Number(p.price || 0),
+            category: p.category || 'General',
+            image: p.image || p.imageUrl || p.image_url || '',
+            available: productIsAvailable(p)
+        };
+    }
+
+    function renderGuestProducts(products) {
+        const grid = document.getElementById('menuGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        Object.keys(catalogProducts).forEach(k => delete catalogProducts[k]);
+        const visibleProducts = products.filter(p => p.available);
+        visibleProducts.forEach(p => {
+            catalogProducts[p.id] = p;
+            if (!(p.id in cart)) cart[p.id] = 0;
+            const safeName = String(p.name).replace(/[<>&\"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','\"':'&quot;'}[c]));
+            const img = p.image || 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=85';
+            const categoryLabel = ({coffee:'Coffee & Drinks',cake:'Desserts',sandwich:'Sandwiches',pasta:'Pasta',soup:'Soups'})[String(p.category).toLowerCase()] || 'Menu Item';
+            grid.insertAdjacentHTML('beforeend', `
+              <div class="product-card" data-id="${p.id}" data-category="${p.category}" data-name="${safeName}" data-price="${p.price}">
+                <div class="product-image-wrap">
+                  <img src="${img}" alt="${safeName}" class="product-img" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=85'">
+                  <div class="image-shade"></div>
+                  <span class="product-badge">${categoryLabel}</span>
+                </div>
+                <div class="product-body">
+                  <div class="product-top">
+                    <div class="product-details"><h4>${safeName}</h4><p>${Number(p.price).toLocaleString('en-US')} EGP</p></div>
+                  </div>
+                  <div class="product-actions">
+                    <button class="item-note-btn" id="note-btn-${p.id}" onclick="toggleItemNote('${p.id}')">📝 Note</button>
+                    <div class="counter-box"><button class="counter-btn minus" onclick="changeQty('${p.id}', -1)">−</button><span class="qty-val" id="qty-${p.id}">${cart[p.id] || 0}</span><button class="counter-btn plus" onclick="changeQty('${p.id}', 1)">+</button></div>
+                  </div>
+                  <div class="item-note-wrap" id="note-wrap-${p.id}">
+                    <textarea class="item-note-input" id="note-${p.id}" placeholder="ملاحظة للصنف ده؟ مثال: بدون سكر، صوص زيادة، بدون بصل...">${escapeHtml(itemNotes[p.id] || '')}</textarea>
+                  </div>
+                </div>
+              </div>`);
+        });
+        if (!visibleProducts.length) grid.innerHTML='<div class="menu-empty"><strong>No products available</strong><span>Please check back shortly.</span></div>';
+        calculateTotal();
+    }
+
+    function seedFallbackProducts(branch) {
+        const updates = {};
+        fallbackProducts.forEach(p => {
+            const payload = {name:p.name, product:p.name, price:p.price, category:p.category, image:p.image, available:true, isAvailable:true, active:true, visible:true, updatedAt:firebase.database.ServerValue.TIMESTAMP};
+            updates['branches/'+branch+'/products/'+p.id] = payload;
+            updates['branches/'+branch+'/menu/'+p.id] = payload;
+            updates['branches/'+branch+'/menuItems/'+p.id] = payload;
+        });
+        return database.ref().update(updates);
+    }
+
+    function loadGuestMenu() {
+        const ref = database.ref('branches/' + branchName + '/products');
+        ref.on('value', snap => {
+            const data = snap.val() || {};
+            if (Object.keys(data).length) {
+                renderGuestProducts(Object.entries(data).map(([id,p]) => normalizeProduct(id,p)));
+            } else {
+                // First run: migrate the existing demo menu into the branch catalog.
+                seedFallbackProducts(branchName).catch(() => renderGuestProducts(fallbackProducts.map(p => ({...p, available:true}))));
+            }
+        });
+    }
+
+    window.onload = function() {
+        if (customerName) {
+            document.getElementById('newUserFields').style.display = 'none';
+            document.getElementById('returningUserFields').style.display = 'block';
+            document.getElementById('savedCustomerName').innerText = customerName;
+        } else {
+            document.getElementById('newUserFields').style.display = 'block';
+            document.getElementById('returningUserFields').style.display = 'none';
+        }
+
+        loadGuestMenu();
+
+        const savedOrder = localStorage.getItem('activeOrderId');
+        if (savedOrder) {
+            currentOrderNumber = savedOrder;
+            const savedTable = localStorage.getItem('activeTableNum');
+            if(savedTable) tableNumber = parseInt(savedTable);
+            document.getElementById('tableModal').style.display = 'none';
+            document.getElementById('tableDisplay').innerText = `Table: ${tableNumber} • ${customerName}`;
+            showTrackingScreen(savedOrder);
+            trackOrderStatusLive(savedOrder);
+        } else {
+            document.getElementById('tableModal').style.display = 'flex';
+        }
+    }
+
+    function saveCustomerData() {
+        let nameVal = customerName; // لو متسجل جاهز بناخده من الـ LocalStorage
+
+        // لو مش متسجل زبون قديم، بنقرأ القيمة اللي كتبها في الخانة لأول مرة
+        if (!nameVal) {
+            nameVal = document.getElementById('userNameInput').value.trim();
+            if (nameVal.length < 3) {
+                alert("من فضلك اكتب اسمك الثنائي بشكل صحيح لبدء الطلب.");
+                return;
+            }
+        }
+        
+        const tableVal = parseInt(document.getElementById('tableInput').value);
+        if (!tableVal || tableVal < 1 || tableVal > 50) {
+            alert("Please enter a valid table number from 1 to 50.");
+            return;
+        }
+        
+        // حفظ واستبقاء البيانات في الـ LocalStorage
+        customerName = nameVal;
+        tableNumber = tableVal;
+        localStorage.setItem('customerName', customerName);
+        localStorage.setItem('activeTableNum', tableNumber);
+        
+        // إخفاء الـ Modal وتحديث بيانات البار
+        document.getElementById('tableModal').style.display = 'none';
+        document.getElementById('tableDisplay').innerText = `Table: ${tableNumber} • ${customerName}`;
+    }
+
+
+    function toggleItemNote(id) {
+        const wrap = document.getElementById('note-wrap-' + id);
+        const input = document.getElementById('note-' + id);
+        const btn = document.getElementById('note-btn-' + id);
+        if (!wrap) return;
+        wrap.classList.toggle('open');
+        if (wrap.classList.contains('open') && input) input.focus();
+        if (btn) btn.classList.toggle('has-note', !!((input && input.value.trim()) || itemNotes[id]));
+    }
+
+    function readItemNotes() {
+        Object.keys(catalogProducts).forEach(id => {
+            const input = document.getElementById('note-' + id);
+            if (input) itemNotes[id] = input.value.trim();
+        });
+    }
+
+    function updateLiveSession(order) {
+        const bar = document.getElementById('liveSessionBar');
+        const main = document.getElementById('liveSessionMain');
+        const add = document.getElementById('liveSessionAdd');
+        if (!bar || !main || !add) return;
+        if (!order) {
+            bar.classList.remove('show');
+            return;
+        }
+        bar.classList.add('show');
+        main.innerText = '🧾 الطلب الحالي #' + (order.orderId || currentOrderNumber || '') + ' • الإجمالي ' + Number(order.totalPrice || 0).toLocaleString() + ' EGP';
+        const additions = Array.isArray(order.lastAdditionItems) ? order.lastAdditionItems : [];
+        add.innerText = additions.length
+            ? '➕ آخر إضافة: ' + additions.map(x => (x.name || 'Item') + ' ×' + Number(x.qty || 0)).join('، ')
+            : 'الطلب مفتوح — تقدر تضيف أي حاجة بدون طلب جديد';
+    }
+
+    function changeQty(id, change) {
+        let currentQty = cart[id] || 0;
+        currentQty += change;
+        if (currentQty < 0) currentQty = 0;
+        cart[id] = currentQty;
+        document.getElementById(`qty-${id}`).innerText = currentQty;
+        calculateTotal();
+    }
+
+    function calculateTotal() {
+        let total = 0;
+        Object.keys(cart).forEach(id => {
+            const p = catalogProducts[id];
+            if (p) total += p.price * (cart[id] || 0);
+        });
+        document.getElementById('totalPriceDisplay').innerText = total + " EGP";
+    }
+
+    function filterCategory(category, btnElement) {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        if(btnElement) btnElement.classList.add('active');
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function collectCartItems() {
+        readItemNotes();
+        const orderItems = [];
+        let total = 0;
+        Object.keys(cart).forEach(id => {
+            const p = catalogProducts[id];
+            const qty = cart[id] || 0;
+            if (p && p.available && qty > 0) {
+                orderItems.push({
+                    id: id, name: p.name, price: p.price, qty: qty,
+                    itemNote: itemNotes[id] || ''
+                });
+                total += p.price * qty;
+            }
+        });
+        return { orderItems, total };
+    }
+
+    function clearCart() {
+        Object.keys(cart).forEach(id => cart[id] = 0);
+        Object.keys(itemNotes).forEach(id => delete itemNotes[id]);
+        document.querySelectorAll('.qty-val').forEach(el => el.innerText = '0');
+        document.querySelectorAll('.item-note-input').forEach(el => el.value = '');
+        document.querySelectorAll('.item-note-wrap').forEach(el => el.classList.remove('open'));
+        document.querySelectorAll('.item-note-btn').forEach(el => el.classList.remove('has-note'));
+        calculateTotal();
+    }
+
+    function submitOrder() {
+        if (!tableNumber || !customerName) {
+            alert("Please enter your name and table number first.");
+            return;
+        }
+
+        const { orderItems, total } = collectCartItems();
+        const orderNoteInput = document.getElementById('orderNoteInput');
+        const orderNote = orderNoteInput ? orderNoteInput.value.trim() : '';
+        if (orderItems.length === 0) {
+            alert("Your cart is empty. Add some items first.");
+            return;
+        }
+
+        // Existing table session: append the new items to the same order.
+        if (currentOrderNumber || localStorage.getItem('activeOrderId')) {
+            currentOrderNumber = currentOrderNumber || localStorage.getItem('activeOrderId');
+            const orderRef = database.ref('branches/' + branchName + '/orders/' + currentOrderNumber);
+
+            orderRef.once('value').then(snapshot => {
+                const existing = snapshot.val();
+                if (!existing) {
+                    // If the old record disappeared, create a new session safely.
+                    currentOrderNumber = null;
+                    submitOrder();
+                    return;
+                }
+
+                const existingItems = Array.isArray(existing.items) ? existing.items.slice() : [];
+                const additions = [];
+
+                orderItems.forEach(newItem => {
+                    const found = existingItems.find(x => x.id === newItem.id);
+                    if (found) {
+                        found.qty = Number(found.qty || 0) + Number(newItem.qty || 0);
+                        if (newItem.itemNote) found.itemNote = newItem.itemNote;
+                    } else {
+                        existingItems.push({...newItem});
+                    }
+                    additions.push({...newItem});
+                });
+
+                const oldTotal = Number(existing.totalPrice || 0);
+                const newTotal = oldTotal + total;
+                const additionId = String(Date.now());
+
+                const updatedOrder = {
+                    ...existing,
+                    items: existingItems,
+                    totalPrice: newTotal,
+                    updatedAt: Date.now(),
+                    lastAdditionAt: Date.now(),
+                    lastAdditionId: additionId,
+                    lastAdditionItems: additions,
+                    lastAdditionTotal: total,
+                    orderNote: orderNote || existing.orderNote || '',
+                    lastAdditionNote: orderNote || '',
+                    status: "إضافة جديدة - قيد الاستلام",
+                    billRequested: false
+                };
+
+                const updates = {};
+                updates['orders/' + currentOrderNumber] = updatedOrder;
+                updates['branches/' + branchName + '/orders/' + currentOrderNumber] = updatedOrder;
+                updates['orders/ORD-' + currentOrderNumber] = updatedOrder;
+                updates['branches/' + branchName + '/orders/ORD-' + currentOrderNumber] = updatedOrder;
+                updates['branches/' + branchName + '/tables/' + tableNumber] = {
+                    status: "occupied",
+                    currentOrder: currentOrderNumber
+                };
+
+                return database.ref().update(updates).then(() => {
+                    clearCart();
+                    if (orderNoteInput) orderNoteInput.value = '';
+                    document.getElementById('trackingTitle').innerText = "Added to Your Order ✓";
+                    document.getElementById('orderStatusLive').innerText = "تمت إضافة طلبك بنجاح — المطبخ استلم الإضافة 🔔";
+                    showTrackingScreen(currentOrderNumber);
+                });
+            }).catch(() => alert("A network error occurred. Please try again."));
+            return;
+        }
+
+        // First order for this table session.
+        const rawRandomNum = Math.floor(1000 + Math.random() * 9000);
+        currentOrderNumber = rawRandomNum.toString();
+
+        localStorage.setItem('activeOrderId', currentOrderNumber);
+        localStorage.setItem('activeTableNum', tableNumber);
+
+        const now = Date.now();
+        const orderData = {
+            orderId: currentOrderNumber,
+            tableNum: tableNumber,
+            customerName: customerName,
+            branch: branchName,
+            items: orderItems,
+            totalPrice: total,
+            status: "قيد الاستلام",
+            billRequested: false,
+            timestamp: now,
+            createdAt: now,
+            updatedAt: now,
+            lastAdditionAt: null,
+            orderNote: orderNote,
+            lastAdditionNote: '',
+            time: new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })
+        };
+
+        const updates = {};
+        updates['orders/' + currentOrderNumber] = orderData;
+        updates['branches/' + branchName + '/orders/' + currentOrderNumber] = orderData;
+        updates['orders/ORD-' + currentOrderNumber] = orderData;
+        updates['branches/' + branchName + '/orders/ORD-' + currentOrderNumber] = orderData;
+        updates['branches/' + branchName + '/tables/' + tableNumber] = {
+            status: "occupied",
+            currentOrder: currentOrderNumber
+        };
+
+        database.ref().update(updates)
+        .then(() => {
+            clearCart();
+            if (orderNoteInput) orderNoteInput.value = '';
+            showTrackingScreen(currentOrderNumber);
+            trackOrderStatusLive(currentOrderNumber);
+        })
+        .catch(() => { alert("A network error occurred. Please try again."); });
+    }
+
+    function showTrackingScreen(orderId) {
+        const screen = document.getElementById('trackingScreen');
+        if (screen) screen.style.display = 'flex';
+
+        currentOrderNumber = String(orderId || currentOrderNumber || '');
+        const numEl = document.getElementById('orderNumberLive');
+        if (numEl) numEl.innerText = "Order #" + currentOrderNumber;
+
+        const tableEl = document.getElementById('trackingTableNum');
+        if (tableEl) tableEl.innerText = tableNumber || '';
+
+        const title = document.getElementById('trackingTitle');
+        if (title && !title.innerText) title.innerText = "Your Order";
+    }
+
+    function continueOrdering() {
+        if (!currentOrderNumber) return;
+        document.getElementById('trackingScreen').style.display = 'none';
+        document.getElementById('trackingTitle').innerText = "Add More to Your Order ☕";
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function trackOrderStatusLive(orderId) {
+        const orderRef = database.ref('branches/' + branchName + '/orders/' + orderId);
+        orderRef.off();
+        orderRef.on('value', (snapshot) => {
+            let order = snapshot.val();
+            if(!order) {
+                database.ref('branches/' + branchName + '/orders/ORD-' + orderId).once('value', (snapORD) => {
+                    order = snapORD.val();
+                    if(order) updateUIStatus(order);
+                    else handleOrderFinished();
+                });
+            } else {
+                updateUIStatus(order);
+            }
+        });
+    }
+
+    function escapeHtml(v) {
+        return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function showRecommendations(order) {
+        const box = document.getElementById('recommendationBox');
+        const list = document.getElementById('recommendationList');
+        const text = document.getElementById('recommendationText');
+        if (!box || !list) return;
+
+        const items = Array.isArray(order.items) ? order.items : [];
+        const categories = items.map(x => String((catalogProducts[x.id] || {}).category || '').toLowerCase());
+        const hasDrink = categories.some(c => ['coffee','drink','drinks','beverage'].includes(c));
+        const hasDessert = categories.some(c => ['cake','dessert','desserts','sweet'].includes(c));
+
+        let candidates = Object.values(catalogProducts);
+        if (hasDrink && !hasDessert) {
+            candidates = candidates.filter(p => ['cake','dessert','desserts','sweet'].includes(String(p.category || '').toLowerCase()));
+            if (text) text.innerText = "مع القهوة، ممكن تحب تضيف Dessert أو حاجة حلوة 🍰";
+        } else if (hasDessert && !hasDrink) {
+            candidates = candidates.filter(p => ['coffee','drink','drinks','beverage'].includes(String(p.category || '').toLowerCase()));
+            if (text) text.innerText = "كمل طلبك بمشروب مناسب ☕";
+        } else {
+            candidates = candidates.filter(p => !items.some(i => String(i.id) === String(p.id)));
+            if (text) text.innerText = "ممكن تضيف حاجة تانية لطلبك ✨";
+        }
+
+        candidates = candidates.filter(p => p.available).slice(0, 4);
+        if (!candidates.length) { box.style.display = 'none'; return; }
+
+        box.style.display = 'block';
+        list.innerHTML = candidates.map(p => `
+            <div class="recommendation-item">
+              <div>
+                <div class="recommendation-item-name">${escapeHtml(p.name)}</div>
+                <div class="recommendation-item-price">${Number(p.price||0).toLocaleString()} EGP</div>
+              </div>
+              <button class="recommendation-add" onclick="addRecommendedItem('${String(p.id).replace(/'/g,"\\'")}')">+ Add</button>
+            </div>`).join('');
+    }
+
+    function addRecommendedItem(id) {
+        const p = catalogProducts[id];
+        if (!p) return;
+        cart[id] = (cart[id] || 0) + 1;
+        const qtyEl = document.getElementById('qty-' + id);
+        if (qtyEl) qtyEl.innerText = cart[id];
+        calculateTotal();
+        document.getElementById('trackingScreen').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function updateUIStatus(order) {
+        const statusEl = document.getElementById('orderStatusLive');
+        if (statusEl) statusEl.innerText = order.billRequested
+            ? "جاري تحضير الفاتورة... 💸"
+            : "الحالة الحالية: " + (order.status || "Waiting");
+
+        const numEl = document.getElementById('orderNumberLive');
+        if (numEl) numEl.innerText = "Order #" + (order.orderId || currentOrderNumber || "");
+
+        const branchEl = document.getElementById('invoiceBranchName');
+        if (branchEl) branchEl.innerText = (branchName || '').replace(/_/g, ' ').toUpperCase();
+
+        const itemsEl = document.getElementById('invoiceItems');
+        if (itemsEl) {
+            const items = Array.isArray(order.items) ? order.items : [];
+            itemsEl.innerHTML = items.length ? items.map(item => `
+                <div class="invoice-row">
+                    <span>${escapeHtml(item.name || 'Item')} × ${Number(item.qty || 0)}${item.itemNote ? '<small style="display:block;color:#9a5d20;margin-top:3px;">📝 ' + escapeHtml(item.itemNote) + '</small>' : ''}</span>
+                    <strong>${(Number(item.price || 0) * Number(item.qty || 0)).toLocaleString()} EGP</strong>
+                </div>`).join('') :
+                '<div class="invoice-row"><span>No items yet</span><strong>—</strong></div>';
+        }
+
+        const totalEl = document.getElementById('invoiceTotal');
+        if (totalEl) totalEl.innerText = Number(order.totalPrice || 0).toLocaleString() + " EGP";
+
+        const noteEl = document.getElementById('additionNote');
+        if (noteEl) {
+            const additions = Array.isArray(order.lastAdditionItems) ? order.lastAdditionItems : [];
+            noteEl.innerHTML = additions.length
+                ? "➕ <b>آخر إضافة:</b> " + additions.map(x =>
+                    escapeHtml(x.name) + " × " + Number(x.qty||0) +
+                    (x.itemNote ? " <em>📝 " + escapeHtml(x.itemNote) + "</em>" : "")
+                  ).join("، ") +
+                  " — " + Number(order.lastAdditionTotal||0).toLocaleString() + " EGP"
+                : "";
+        }
+
+        const orderNoteView = document.getElementById('orderNoteView');
+        if (orderNoteView) {
+            const note = order.lastAdditionNote || order.orderNote || '';
+            orderNoteView.style.display = note ? 'block' : 'none';
+            orderNoteView.innerHTML = note ? "📝 <b>ملاحظة للمطبخ:</b> " + escapeHtml(note) : "";
+        }
+
+        updateLiveSession(order);
+        showRecommendations(order);
+    }
+
+    function handleOrderFinished() {
+        const orderId = currentOrderNumber || localStorage.getItem('activeOrderId') || '';
+        document.getElementById('trackingTitle').innerText = "Thank You ❤️";
+        document.getElementById('orderStatusLive').innerText = "تم إنهاء الحساب وإخلاء الطاولة بنجاح.";
+        document.getElementById('addMoreBtn').style.display = 'none';
+        document.querySelector('.bill-btn').style.display = 'none';
+        document.getElementById('feedbackBox').style.display = 'block';
+        document.getElementById('feedbackBox').dataset.orderId = orderId;
+        database.ref('branches/' + branchName + '/feedback/' + orderId).once('value').then(snap => {
+            const fb = snap.val();
+            if (fb) {
+                setRating(Number(fb.rating || 0));
+                document.getElementById('feedbackComment').value = fb.comment || '';
+                document.getElementById('feedbackDone').style.display = 'block';
+                document.querySelector('.feedback-submit').disabled = true;
+            }
+        });
+    }
+
+    function requestBill() {
+        if (!currentOrderNumber) return;
+
+        const updates = {};
+        updates['orders/' + currentOrderNumber + '/billRequested'] = true;
+        updates['branches/' + branchName + '/orders/' + currentOrderNumber + '/billRequested'] = true;
+        updates['orders/ORD-' + currentOrderNumber + '/billRequested'] = true;
+        updates['branches/' + branchName + '/orders/ORD-' + currentOrderNumber + '/billRequested'] = true;
+
+        database.ref().update(updates).then(() => {
+            document.getElementById('orderStatusLive').innerText = "جاري تحضير الفاتورة... 💸";
+        });
+    }
+
+    let selectedRating = 0;
+
+    function setRating(rating) {
+        selectedRating = rating;
+        document.querySelectorAll('.feedback-star').forEach(star => {
+            star.classList.toggle('active', Number(star.dataset.rating) <= rating);
+        });
+    }
+
+    function submitFeedback() {
+        const orderId = document.getElementById('feedbackBox').dataset.orderId || currentOrderNumber;
+        if (!orderId || !selectedRating) {
+            alert("Please choose a rating first.");
+            return;
+        }
+
+        const comment = (document.getElementById('feedbackComment').value || '').trim();
+        const feedback = {
+            orderId: String(orderId),
+            rating: selectedRating,
+            comment: comment,
+            customerName: customerName || '',
+            tableNum: tableNumber || '',
+            branch: branchName,
+            submittedAt: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        const updates = {};
+        updates['branches/' + branchName + '/feedback/' + orderId] = feedback;
+
+        return database.ref('branches/' + branchName + '/archive').once('value').then(snapshot => {
+            const archive = snapshot.val() || {};
+            Object.keys(archive).forEach(key => {
+                if (String(archive[key].orderId || '') === String(orderId)) {
+                    updates['branches/' + branchName + '/archive/' + key + '/feedback'] = feedback;
+                }
+            });
+            return database.ref().update(updates);
+        }).then(() => {
+            document.getElementById('feedbackDone').style.display = 'block';
+            document.querySelector('.feedback-submit').disabled = true;
+            document.getElementById('feedbackComment').disabled = true;
+            document.querySelectorAll('.feedback-star').forEach(x => x.disabled = true);
+            localStorage.removeItem('activeOrderId');
+            localStorage.removeItem('activeTableNum');
+        }).catch(() => alert("Could not send feedback. Please try again."));
+    }
+
+</script>
+</body>
+</html>

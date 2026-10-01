@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENG WAGEH ERP — Restaurant Management System</title>
+    <style>
+        :root {
+            --bg-deep: #050811;
+            --bg-surface: rgba(13, 21, 37, 0.65);
+            --bg-card: #0c1322;
+            --gold-pure: #f39c12;
+            --gold-glow: #ffd700;
+            --neon-blue: #00d2ff;
+            --neon-green: #05df9d;
+            --neon-red: #ff3838;
+            --text-pure: #ffffff;
+            --text-secondary: #8fa0dd;
+            --glass-border: rgba(255, 255, 255, 0.04);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body { 
+            background-color: var(--bg-deep); 
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(243, 156, 18, 0.05) 0%, transparent 40%),
+                linear-gradient(180deg, #050811 0%, #0a0f1d 100%);
+            margin: 0; padding: 30px; color: var(--text-pure); 
+            min-height: 100vh; overflow-x: hidden;
+        }
+
+        /* 🔐 شاشة الدخول */
+        .login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: radial-gradient(circle at center, #0b1220 0%, #03050a 100%);
+            display: flex; justify-content: center; align-items: center; z-index: 10000;
+            backdrop-filter: blur(20px);
+        }
+        .login-box {
+            background: rgba(12, 19, 34, 0.8); padding: 50px 40px; border-radius: 28px; width: 90%; max-width: 440px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(243, 156, 18, 0.1); 
+            text-align: center; border: 1px solid rgba(243, 156, 18, 0.2); backdrop-filter: blur(10px);
+        }
+        .login-box h3 { color: var(--gold-glow); margin-bottom: 30px; font-size: 26px; font-weight: 900; text-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        .login-input {
+            width: 100%; padding: 16px 20px; margin-bottom: 22px; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; font-size: 15px; outline: none; text-align: center; background: #060a12; color: white;
+        }
+        .login-input:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px rgba(0, 210, 255, 0.25); background: #090f1c; }
+        .btn-login {
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #f39c12, #f1c40f); color: #000;
+            border: none; border-radius: 14px; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(243, 156, 18, 0.5); }
+        .login-error { color: var(--neon-red); font-weight: bold; font-size: 14px; margin-top: 15px; display: none; }
+
+        /* ENG WAGEH ERP — Restaurant Login */
+.login-overlay{background:#050505!important;padding:28px;overflow:auto}
+.login-erp-card{width:min(1120px,100%);min-height:650px;padding:0;border-radius:30px;overflow:hidden;display:grid;grid-template-columns:43% 57%;direction:ltr;background:#100604;border:1px solid rgba(255,255,255,.10);box-shadow:0 35px 100px rgba(0,0,0,.75),0 0 80px rgba(255,93,0,.08);position:relative;text-align:left}
+.login-erp-card:before{display:none}
+.login-form-panel{direction:rtl;padding:58px 56px 38px;background:linear-gradient(145deg,#170806 0%,#0b0505 100%);display:flex;flex-direction:column;justify-content:center;position:relative;z-index:3}
+.login-brand-row{display:flex;align-items:center;gap:13px;margin-bottom:34px;direction:ltr}
+.login-brand-mark{width:48px;height:48px;margin:0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:950;color:#fff;background:linear-gradient(145deg,#ff7a18,#e33b00);box-shadow:0 10px 30px rgba(255,91,0,.25)}
+.login-brand{font-size:25px;font-weight:950;letter-spacing:1.5px;color:#fff;line-height:1}.login-brand span{color:#ff6a12}.login-subtitle{text-align:left;margin-top:6px;color:#765f59;font-size:8px;letter-spacing:2px;font-weight:800}.login-divider{height:1px;background:rgba(255,255,255,.07);margin:0 0 34px}.login-welcome{color:#fff;font-size:31px;font-weight:950;line-height:1.2;margin-bottom:7px}.login-hint{color:#8f7b76;font-size:12px;margin:0 0 28px}.login-label{display:block;color:#d7cbc7;font-size:12px;font-weight:800;margin:0 0 8px}
+.login-field{height:53px;display:flex;align-items:center;gap:10px;padding:0 15px;margin-bottom:17px;border-radius:11px;background:#0a0808;border:1px solid rgba(255,255,255,.09);direction:ltr}.login-field:focus-within{border-color:#ff6810;box-shadow:0 0 0 3px rgba(255,104,16,.08)}.login-field span{opacity:.65;font-size:14px;color:#ff7b2b}.login-field input{flex:1;border:0!important;outline:0!important;background:transparent!important;color:#fff!important;padding:0!important;text-align:left!important;font-size:13px}.login-field input::placeholder{color:#5f5552}
+.login-options{display:flex;justify-content:space-between;align-items:center;margin:-3px 0 24px;font-size:10px;color:#766a66;direction:ltr}.login-remember{display:flex;align-items:center;gap:6px;cursor:pointer}.login-remember input{accent-color:#ff6810}.login-forgot{color:#a28e87}
+.btn-login{width:100%;height:52px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#ff7b18,#f04b0b);color:#fff;border:none;border-radius:11px;font-size:13px;font-weight:900;cursor:pointer;box-shadow:0 10px 28px rgba(255,86,10,.22);direction:rtl}.btn-login b{font-size:19px;font-weight:500}.btn-login:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,86,10,.34)}.login-error{color:#ff5b5b;font-weight:bold;font-size:11px;margin-top:14px;display:none}.login-footer{text-align:center;color:#514643;font-size:9px;margin-top:32px;letter-spacing:.7px}.login-footer span{color:#ff6810;margin:0 5px}
+.login-visual-panel{direction:ltr;position:relative;overflow:hidden;min-height:650px;background:#020202}.login-visual-panel:before{content:"";position:absolute;inset:-20%;background:radial-gradient(ellipse at 48% 28%,rgba(255,87,0,.95) 0%,rgba(255,55,0,.46) 8%,transparent 25%),radial-gradient(ellipse at 88% 5%,rgba(255,101,0,.85) 0%,transparent 19%),radial-gradient(ellipse at 18% 82%,rgba(255,68,0,.72) 0%,transparent 24%);filter:blur(3px)}.login-visual-panel:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,transparent 15%,rgba(0,0,0,.55) 78%),linear-gradient(120deg,rgba(0,0,0,.2),rgba(0,0,0,.05))}
+.orb{position:absolute;border-radius:50%;filter:blur(1px);box-shadow:inset -30px -25px 70px rgba(0,0,0,.72),inset 20px 15px 35px rgba(255,170,90,.18),0 0 45px rgba(255,70,0,.35)}.orb.one{width:210px;height:210px;right:7%;top:-70px;background:radial-gradient(circle at 35% 30%,#ffbd79,#ff5b08 34%,#1b0502 72%)}.orb.two{width:285px;height:285px;right:24%;top:85px;background:radial-gradient(circle at 35% 28%,#ff9a4b,#d93c00 32%,#100302 72%)}.orb.three{width:190px;height:190px;left:14%;bottom:-35px;background:radial-gradient(circle at 35% 28%,#ff8b3b,#e74606 32%,#100302 74%)}
+.tube{position:absolute;border:38px solid #8d2300;border-radius:100px;transform:rotate(24deg);box-shadow:inset 0 0 20px rgba(0,0,0,.9),0 0 25px rgba(255,70,0,.22);z-index:1}.tube:after{content:"";position:absolute;inset:-22px;border:15px solid rgba(255,118,42,.22);border-radius:100px;filter:blur(8px)}.tube.a{width:690px;height:220px;right:-190px;top:115px}.tube.b{width:700px;height:190px;left:-270px;bottom:30px;transform:rotate(-18deg)}.tube.c{width:570px;height:175px;right:-130px;bottom:-40px;transform:rotate(12deg)}
+.visual-brand{position:absolute;top:34px;left:38px;z-index:4;color:#ff6810;font-size:16px;font-weight:950;letter-spacing:1px}.visual-copy{position:absolute;left:42px;bottom:48px;z-index:4;color:#fff;max-width:370px}.visual-copy h2{font-size:34px;line-height:1.05;margin:0 0 12px;font-weight:950}.visual-copy h2 span{color:#ff6a12;font-style:italic}.visual-copy p{color:#b7a9a5;font-size:11px;line-height:1.8;margin:0;max-width:290px}
+@media(max-width:850px){.login-overlay{padding:15px}.login-erp-card{grid-template-columns:1fr;min-height:auto;max-width:520px}.login-visual-panel{display:none}.login-form-panel{padding:42px 28px 30px;min-height:620px}}
+.admin-wrapper { display: none; animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 🪐 الهيدر */
+        .admin-header {
+            background: var(--bg-surface); backdrop-filter: blur(16px); padding: 22px 35px; border-radius: 24px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
+            border: 1px solid var(--glass-border); box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .header-title-crypto { 
+            font-size: 24px; font-weight: 950; 
+            background: linear-gradient(90deg, #ffffff, var(--gold-glow), var(--neon-blue)); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        
+        .shift-interactive-card {
+            display: flex; align-items: center; gap: 15px; background: #060a12;
+            padding: 10px 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .btn-toggle-shift-master {
+            background: linear-gradient(135deg, #2c3e50, #1a252f); color: #fff;
+            border: 1px solid rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 12px;
+            font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 6px;
+        }
+        .btn-toggle-shift-master:hover {
+            background: var(--gold-pure); color: #000; border-color: var(--gold-glow);
+            box-shadow: 0 0 15px rgba(243,156,18,0.4); transform: scale(1.03);
+        }
+
+        .shift-status-pill { font-size: 14px; font-weight: 900; padding: 6px 14px; border-radius: 10px; }
+        .shift-status-pill.day { background: rgba(243, 156, 18, 0.15); color: var(--gold-glow); border: 1px solid rgba(243,156,18,0.3); }
+        .shift-status-pill.night { background: rgba(0, 210, 255, 0.15); color: var(--neon-blue); border: 1px solid rgba(0, 210, 255, 0.3); }
+
+        /* 🎛️ شريط التحكم */
+        .control-ribbon { display: flex; gap: 20px; margin-bottom: 35px; align-items: center; flex-wrap: wrap; }
+        .btn-premium-action {
+            background: rgba(19, 30, 54, 0.6); border: 1px solid rgba(255,255,255,0.06); color: #fff;
+            padding: 15px 26px; border-radius: 16px; font-weight: 700; font-size: 14px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px;
+        }
+        .btn-premium-action:hover { background: var(--text-pure); color: #000; border-color: var(--text-pure); transform: translateY(-2px); }
+        .btn-finance-style { background: linear-gradient(135deg, rgba(243,156,18,0.15), rgba(241,196,15,0.05)); border-color: rgba(243,156,18,0.3); color: var(--gold-glow); }
+        .btn-finance-style:hover { background: linear-gradient(135deg, var(--gold-pure), var(--gold-glow)); color: #000; box-shadow: 0 8px 25px rgba(243, 156, 18, 0.35); }
+        
+        .btn-logout-style { background: rgba(255, 56, 56, 0.1); border-color: rgba(255, 56, 56, 0.3); color: var(--neon-red); margin-right: auto; }
+        .btn-logout-style:hover { background: linear-gradient(135deg, var(--neon-red), #b31010); color: #fff; box-shadow: 0 8px 25px rgba(255, 56, 56, 0.3); }
+
+        select.premium-select {
+            padding: 15px 24px; font-size: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.06);
+            font-weight: bold; color: white; cursor: pointer; background: #0c1322; outline: none;
+        }
+
+        /* 📋 شبكة الأوردرات */
+        .orders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 30px; }
+        .order-card-flexible {
+            background: var(--bg-card); border-radius: 24px; padding: 28px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.02);
+            display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;
+        }
+        .order-card-flexible.silver-member { border: 1px solid rgba(189, 195, 199, 0.25); background: linear-gradient(150deg, #0c1322 0%, #151f33 100%); }
+        .order-card-flexible.gold-member { border: 1px solid rgba(243, 156, 18, 0.35); background: linear-gradient(150deg, #0c1322 0%, #1d170b 100%); animation: goldPulse 4s infinite alternate; }
+        @keyframes goldPulse { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.4); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 30px rgba(243,156,18,0.15); border-color: var(--gold-glow); } }
+
+        .rank-tag-badge { font-size: 11px; padding: 6px 14px; border-radius: 10px; font-weight: 800; display: inline-block; }
+        .rank-tag-badge.silver { background: linear-gradient(135deg, #e2e8f0, #94a3b8); color: #0f172a; }
+        .rank-tag-badge.gold { background: linear-gradient(135deg, #f39c12, #ffd700); color: #000; }
+
+        .bill-alert-neon {
+            background: linear-gradient(90deg, #ff3838, #b31010); color: white; text-align: center;
+            font-weight: 900; padding: 14px; border-radius: 14px; font-size: 13px; margin-bottom: 22px;
+            box-shadow: 0 0 20px rgba(255, 56, 56, 0.4); animation: neonBlink 1s infinite alternate;
+        }
+        @keyframes neonBlink { from { opacity: 0.9; } to { opacity: 1; box-shadow: 0 0 25px rgba(255, 56, 56, 0.6); } }
+
+        .card-row-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .table-headline { font-size: 26px; font-weight: 900; color: #fff; }
+        .order-token-style { font-size: 13px; color: var(--neon-blue); font-weight: bold; background: rgba(0, 210, 255, 0.06); padding: 6px 14px; border-radius: 10px; border: 1px solid rgba(0, 210, 255, 0.15); }
+
+        .item-list-container { margin: 22px 0; background: #060a12; padding: 8px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.02); }
+        .item-data-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; font-weight: 700; }
+        .item-data-row:last-child { border-bottom: none; }
+        .qty-pill-badge { background: rgba(0, 210, 255, 0.15); color: var(--neon-blue); padding: 4px 10px; border-radius: 8px; font-weight: 900; font-size: 12px; }
+
+        .total-bill-row { font-size: 24px; font-weight: 900; color: var(--gold-glow); margin: 22px 0 15px 0; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 20px; text-align: left; }
+
+        .dual-buttons-row { display: flex; gap: 14px; margin-top: 15px; }
+        .btn-panel-action { flex: 1; padding: 15px; border: none; border-radius: 14px; font-weight: 800; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-panel-action.done-prep { background: var(--neon-green); color: #000; }
+        .btn-panel-action.done-cash { background: var(--neon-red); color: white; }
+
+        /* 🎰 الأدرج الجانبية */
+        .premium-drawer {
+            position: fixed; top: 0; width: 370px; height: 100%; background: rgba(10, 15, 28, 0.85); box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            z-index: 9999; padding: 35px 30px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.03); color: white; backdrop-filter: blur(25px);
+        }
+        #financeDrawer { right: -390px; border-left: 2px solid var(--gold-pure); }
+        #financeDrawer.open { right: 0; }
+        #reportsDrawer { left: -390px; border-right: 2px solid var(--neon-blue); }
+        #reportsDrawer.open { left: 0; }
+
+        .drawer-header-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(255,255,255,0.05); padding-bottom: 20px; margin-bottom: 30px; }
+        .btn-close-x { background: #162238; color: white; border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+        
+        .drawer-finance-box { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
+        .sub-matrix-card { background: #0d1525; padding: 22px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.03); }
+        .sub-matrix-card p { margin: 0 0 8px 0; font-size: 12px; color: var(--text-secondary); font-weight: bold; }
+        .sub-matrix-card h3 { margin: 0; font-size: 24px; font-weight: 900; color: #fff; }
+
+        .top-item-badge-box { background: rgba(243, 156, 18, 0.06); border: 1px dashed rgba(243, 156, 18, 0.3); padding: 18px; border-radius: 16px; text-align: center; }
+
+        .side-table { width: 100%; border-collapse: collapse; text-align: right; }
+        .side-table th { color: var(--neon-blue); border-bottom: 2px solid rgba(255,255,255,0.05); padding: 12px 5px; font-size: 13px; }
+        .side-table td { padding: 15px 5px; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--text-pure); font-size: 13px; }
+        .fav-food-text { display: block; font-size: 11px; color: var(--gold-glow); margin-top: 6px; }
+        .branch-identity-badge { display: inline-block; padding: 4px 8px; font-size: 11px; font-weight: bold; color: var(--neon-blue); background: rgba(0, 210, 255, 0.08); border-radius: 6px; }
+    
+/* ===== ENG WAGEH ERP - INVENTORY & COST CONTROL ===== */
+.erp-module-btns{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.erp-module-btn{border:1px solid #3b465b;background:#111827;color:#fff;border-radius:12px;padding:11px 16px;cursor:pointer;font-weight:700}.erp-module-btn:hover{border-color:#d4af37;transform:translateY(-1px)}.erp-overlay{position:fixed;inset:0;background:rgba(4,7,12,.96);z-index:9999;display:none;overflow:auto;padding:24px}.erp-overlay.open{display:block}.erp-shell{max-width:1400px;margin:auto}.erp-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px}.erp-title{font-size:25px;font-weight:900;color:#fff}.erp-sub{color:#8f9bad;font-size:13px}.erp-close{background:#202938;border:1px solid #3b465b;color:#fff;padding:10px 15px;border-radius:10px;cursor:pointer}.erp-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.erp-tab{background:#121a27;color:#d8dee9;border:1px solid #303b4e;padding:10px 15px;border-radius:10px;cursor:pointer}.erp-tab.active{border-color:#d4af37;color:#d4af37}.erp-panel{display:none}.erp-panel.active{display:block}.erp-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}.erp-kpi{background:#101722;border:1px solid #293548;border-radius:14px;padding:17px}.erp-kpi b{display:block;font-size:25px;color:#fff;margin-top:6px}.erp-kpi span{color:#8f9bad;font-size:12px}.erp-card{background:#0f1722;border:1px solid #293548;border-radius:14px;padding:16px;margin-bottom:16px}.erp-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.erp-input{width:100%;box-sizing:border-box;background:#0a1019;color:#fff;border:1px solid #334155;border-radius:9px;padding:10px}.erp-action{border:0;border-radius:9px;padding:10px 14px;background:#d4af37;color:#111;font-weight:800;cursor:pointer}.erp-danger{background:#8b2d3b;color:#fff}.erp-table{width:100%;border-collapse:collapse;color:#e5e7eb}.erp-table th,.erp-table td{padding:10px;border-bottom:1px solid #273244;text-align:right;font-size:13px}.erp-table th{color:#d4af37}.erp-badge{padding:4px 8px;border-radius:20px;background:#182335}.erp-good{color:#62d69b}.erp-warn{color:#f5c451}.erp-bad{color:#ff6b7d}.cost-result{font-size:28px;font-weight:900;color:#d4af37;margin-top:10px}.recipe-list{display:grid;gap:8px;margin-top:12px}.recipe-row{display:flex;justify-content:space-between;gap:10px;background:#121b28;padding:10px;border-radius:9px}.erp-note{font-size:12px;color:#7f8a9c;margin-top:8px}
+</style>
+
+<style id="eng-wageh-enterprise-ui">
+/* =========================================================
+   ENG WAGEH ERP — HUMAN DESIGNED ENTERPRISE UI
+   Clean, dense, operational. No glass/neon/AI-card styling.
+   ========================================================= */
+:root{
+  --ew-bg:#0b0d10;
+  --ew-sidebar:#101317;
+  --ew-panel:#14181d;
+  --ew-panel-2:#181d23;
+  --ew-line:#292f37;
+  --ew-line-soft:#20252c;
+  --ew-text:#f1f3f5;
+  --ew-muted:#8d96a3;
+  --ew-orange:#f28b30;
+  --ew-orange-dark:#c96c20;
+  --ew-green:#35b77b;
+  --ew-red:#d85c61;
+  --ew-blue:#5b9bd5;
+}
+html,body{background:var(--ew-bg)!important;color:var(--ew-text)!important;}
+body{padding:20px!important;font-family:Inter,Segoe UI,Arial,sans-serif!important;}
+*{transition:none!important;}
+button,input,select{font-family:inherit!important;}
+
+/* Main dashboard after login */
+.admin-wrapper{max-width:1600px!important;margin:0 auto!important;animation:none!important;}
+.admin-header{
+  background:var(--ew-panel)!important;border:1px solid var(--ew-line)!important;
+  border-radius:10px!important;box-shadow:none!important;backdrop-filter:none!important;
+  padding:18px 22px!important;margin-bottom:12px!important;
+}
+.header-title-crypto{
+  font-size:20px!important;font-weight:700!important;letter-spacing:.2px!important;
+  background:none!important;-webkit-text-fill-color:var(--ew-text)!important;
+}
+.shift-interactive-card{background:transparent!important;border:0!important;padding:0!important;gap:12px!important;}
+.shift-status-pill{border-radius:5px!important;font-size:12px!important;padding:7px 10px!important;background:#1d2a25!important;color:#8fe0b8!important;}
+.btn-toggle-shift-master,.btn-premium-action{
+  background:#1a1f25!important;color:#dfe3e7!important;border:1px solid var(--ew-line)!important;
+  border-radius:6px!important;box-shadow:none!important;transform:none!important;
+  padding:9px 13px!important;font-size:12px!important;
+}
+.btn-toggle-shift-master:hover,.btn-premium-action:hover{background:#232a32!important;border-color:#3a424c!important;color:#fff!important;}
+.btn-finance-style{border-left:3px solid var(--ew-orange)!important;}
+.btn-logout-style{color:#e6a0a4!important;}
+.control-ribbon{
+  background:var(--ew-panel)!important;border:1px solid var(--ew-line)!important;
+  border-radius:10px!important;padding:10px!important;margin-bottom:12px!important;
+  box-shadow:none!important;gap:8px!important;
+}
+.premium-select{background:#0f1216!important;border:1px solid var(--ew-line)!important;color:#e6e9ed!important;border-radius:6px!important;padding:9px 12px!important;}
+.orders-grid{gap:10px!important;}
+.order-card,.premium-order-card,.order-item-card{
+  background:var(--ew-panel)!important;border:1px solid var(--ew-line)!important;
+  border-radius:8px!important;box-shadow:none!important;
+}
+
+/* Finance / customer drawers */
+.premium-drawer{background:#101317!important;border-left:1px solid var(--ew-line)!important;box-shadow:-20px 0 50px rgba(0,0,0,.35)!important;}
+.drawer-header-top{border-bottom:1px solid var(--ew-line)!important;}
+.drawer-header-top h3{color:var(--ew-text)!important;}
+.sub-matrix-card,.top-item-badge-box{background:var(--ew-panel)!important;border:1px solid var(--ew-line)!important;border-radius:7px!important;box-shadow:none!important;}
+.btn-close-x{background:#1a1f25!important;border:1px solid var(--ew-line)!important;border-radius:6px!important;}
+.side-table th{color:#aeb6c0!important;border-bottom:1px solid var(--ew-line)!important;}
+.side-table td{border-bottom:1px solid var(--ew-line-soft)!important;}
+
+/* ERP launcher */
+.erp-module-btns{display:flex!important;gap:7px!important;flex-wrap:wrap!important;margin:12px 0!important;}
+.erp-module-btn{
+  background:#15191e!important;color:#dfe3e7!important;border:1px solid var(--ew-line)!important;
+  border-radius:6px!important;padding:9px 13px!important;font-size:12px!important;font-weight:600!important;
+  box-shadow:none!important;transform:none!important;
+}
+.erp-module-btn:hover{background:#1d2329!important;border-color:#414952!important;transform:none!important;}
+
+/* Full ERP workspace */
+.erp-overlay{
+  background:#0b0d10!important;padding:0!important;overflow:hidden!important;
+}
+.erp-shell{
+  max-width:none!important;width:100%!important;height:100vh!important;margin:0!important;
+  display:grid!important;grid-template-columns:230px minmax(0,1fr)!important;
+  background:var(--ew-bg)!important;
+}
+.erp-side{
+  width:230px!important;background:var(--ew-sidebar)!important;border-right:1px solid var(--ew-line)!important;
+  padding:18px 12px!important;display:flex!important;flex-direction:column!important;gap:4px!important;
+}
+.erp-brand{
+  padding:6px 10px 20px!important;border-bottom:1px solid var(--ew-line)!important;margin-bottom:12px!important;
+}
+.erp-brand strong{display:block!important;font-size:18px!important;letter-spacing:.8px!important;color:#fff!important;}
+.erp-brand span{display:block!important;font-size:10px!important;letter-spacing:1.2px!important;color:var(--ew-muted)!important;margin-top:4px!important;}
+.erp-side-btn{
+  width:100%!important;text-align:left!important;background:transparent!important;color:#aeb6c0!important;
+  border:1px solid transparent!important;border-radius:6px!important;padding:10px 11px!important;
+  font-size:12px!important;font-weight:600!important;cursor:pointer!important;
+}
+.erp-side-btn:hover{background:#181d22!important;color:#fff!important;}
+.erp-side-btn.active{background:#1b2026!important;border-color:#303740!important;color:#fff!important;box-shadow:inset 3px 0 0 var(--ew-orange)!important;}
+.erp-side-btn:last-child{margin-top:auto!important;color:#929aa5!important;border-top:1px solid var(--ew-line)!important;border-radius:0!important;padding-top:16px!important;}
+.erp-main{
+  min-width:0!important;overflow:auto!important;background:#0f1216!important;padding:28px 30px!important;
+}
+.erp-top{
+  display:flex!important;justify-content:space-between!important;align-items:flex-start!important;
+  padding-bottom:18px!important;margin-bottom:20px!important;border-bottom:1px solid var(--ew-line)!important;
+}
+.erp-heading h1{font-size:24px!important;font-weight:700!important;letter-spacing:-.3px!important;margin:0!important;color:#fff!important;}
+.erp-heading p{font-size:12px!important;color:var(--ew-muted)!important;margin:6px 0 0!important;}
+.erp-close{background:#171b20!important;border:1px solid var(--ew-line)!important;color:#cbd0d6!important;border-radius:6px!important;padding:8px 12px!important;font-size:12px!important;}
+.erp-close:hover{background:#22282f!important;color:#fff!important;}
+.erp-panel{direction:ltr!important;text-align:left!important;}
+.erp-grid,.erp-kpis{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;margin-bottom:16px!important;}
+.erp-kpi{
+  background:var(--ew-panel)!important;border:1px solid var(--ew-line)!important;border-radius:7px!important;
+  padding:15px 16px!important;min-height:92px!important;box-shadow:none!important;
+}
+.erp-kpi span{display:block!important;color:#9099a5!important;font-size:11px!important;text-transform:uppercase!important;letter-spacing:.4px!important;}
+.erp-kpi b{display:block!important;color:#fff!important;font-size:22px!important;font-weight:700!important;margin:7px 0 3px!important;}
+.erp-kpi small{color:#69737f!important;font-size:10px!important;}
+.erp-card{
+  background:var(--ew-panel)!important;border:1px solid var(--ew-line)!important;border-radius:7px!important;
+  padding:18px!important;margin-bottom:12px!important;box-shadow:none!important;
+}
+.erp-card-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;margin-bottom:14px!important;padding-bottom:11px!important;border-bottom:1px solid var(--ew-line-soft)!important;}
+.erp-card h3{margin:0!important;font-size:14px!important;font-weight:650!important;color:#eef1f4!important;}
+.status-pill{font-size:10px!important;color:#9da6b0!important;background:#1b2026!important;border:1px solid #2d343d!important;border-radius:4px!important;padding:4px 7px!important;}
+.erp-form{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:8px!important;}
+.erp-input{
+  width:100%!important;background:#0d1014!important;color:#e9edf1!important;border:1px solid #303740!important;
+  border-radius:5px!important;padding:10px 11px!important;font-size:12px!important;outline:none!important;
+}
+.erp-input:focus{border-color:#626c77!important;box-shadow:none!important;}
+.erp-action{
+  background:var(--ew-orange)!important;color:#151515!important;border:0!important;border-radius:5px!important;
+  padding:9px 13px!important;font-size:12px!important;font-weight:700!important;box-shadow:none!important;
+}
+.erp-action:hover{background:#ff9b45!important;transform:none!important;}
+.erp-secondary{background:#20262d!important;color:#d7dce1!important;border:1px solid #333b44!important;}
+.erp-table-wrap{overflow:auto!important;border:1px solid var(--ew-line)!important;border-radius:5px!important;}
+.erp-table{width:100%!important;border-collapse:collapse!important;background:#11151a!important;}
+.erp-table th{background:#191e24!important;color:#9ea7b2!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.5px!important;font-weight:650!important;text-align:left!important;padding:10px 12px!important;border-bottom:1px solid var(--ew-line)!important;white-space:nowrap!important;}
+.erp-table td{color:#dce1e6!important;font-size:12px!important;text-align:left!important;padding:11px 12px!important;border-bottom:1px solid #20252b!important;}
+.erp-table tr:last-child td{border-bottom:0!important;}
+.erp-table tbody tr:hover{background:#171c21!important;}
+.erp-badge{padding:3px 7px!important;border-radius:4px!important;background:#20262d!important;color:#bfc6ce!important;}
+.erp-good{color:#62c995!important}.erp-warn{color:#e1ad4e!important}.erp-bad{color:#df7479!important}
+.cost-result{font-size:24px!important;color:var(--ew-orange)!important;}
+.recipe-builder{display:grid!important;grid-template-columns:minmax(0,1.5fr) minmax(280px,.7fr)!important;gap:12px!important;}
+.recipe-list{gap:5px!important;}
+.recipe-row{background:#181d22!important;border:1px solid #292f36!important;border-radius:5px!important;padding:9px 10px!important;}
+.erp-note{font-size:11px!important;line-height:1.6!important;color:#858f9a!important;}
+
+@media(max-width:1050px){
+  .erp-grid,.erp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  .erp-form{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:760px){
+  body{padding:10px!important;}
+  .erp-shell{grid-template-columns:1fr!important;}
+  .erp-side{width:100%!important;height:auto!important;border-right:0!important;border-bottom:1px solid var(--ew-line)!important;display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:5px!important;}
+  .erp-brand{grid-column:1/-1!important;margin:0!important;padding:4px 6px 12px!important;}
+  .erp-side-btn:last-child{margin-top:0!important;border-top:0!important;padding-top:10px!important;}
+  .erp-main{padding:18px 12px!important;}
+  .erp-grid,.erp-kpis,.erp-form,.recipe-builder{grid-template-columns:1fr!important;}
+  .erp-top{align-items:flex-start!important;}
+}
+</style>
+
+<style id="eng-wageh-product-management-ui">
+.availability-toggle{display:inline-flex;align-items:center;gap:7px;padding:5px 9px;border-radius:999px;border:1px solid #343b44;background:#1a1f25;color:#aeb6c0;font-size:11px;font-weight:800;cursor:pointer;user-select:none}.availability-toggle i{width:8px;height:8px;border-radius:50%;background:#68717d;display:block}.availability-toggle.on{color:#79d5a8;border-color:#2e6049;background:#10251b}.availability-toggle.on i{background:#35b77b}.availability-toggle.off{color:#aeb6c0}.availability-toggle.off i{background:#d85c61}.product-table td{vertical-align:middle}.erp-secondary{background:#252b33!important;color:#dce2e8!important;border:1px solid #353d47!important}.erp-secondary:hover{background:#303740!important}.empty-cell{text-align:center!important;color:#7f8996!important;padding:30px!important}.erp-range{width:150px!important;padding:8px 10px!important}.sales-chart{height:230px;display:flex;align-items:flex-end;gap:8px;padding:18px 8px 4px;border-top:1px solid #252b32}.chart-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px}.chart-value{font-size:9px;color:#87919d;min-height:12px;white-space:nowrap}.chart-bar{height:165px;width:100%;max-width:34px;display:flex;align-items:flex-end;background:#181d23;border-radius:4px;overflow:hidden}.chart-bar span{width:100%;display:block;background:#e58a2b;border-radius:4px 4px 0 0}.chart-col small{font-size:10px;color:#727c88}.finance-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.summary-label{display:block;color:#89939f;font-size:11px;margin-bottom:8px}.finance-summary-grid strong{font-size:20px;color:#f1f3f5}.finance-breakdown{display:flex;flex-direction:column}.finance-line{display:flex;justify-content:space-between;align-items:center;padding:14px 4px;border-bottom:1px solid #252b32}.finance-line:last-child{border-bottom:0}.finance-line span{color:#9ca5b0;font-size:13px}.finance-line b{color:#f28b30;font-size:16px}.product-create-card{margin-bottom:12px!important}@media(max-width:800px){.finance-summary-grid{grid-template-columns:1fr 1fr}.erp-form{grid-template-columns:1fr!important}.sales-chart{gap:3px}}@media(max-width:520px){.finance-summary-grid{grid-template-columns:1fr}.erp-table th,.erp-table td{font-size:11px;padding:8px 6px}.sales-chart{height:190px}.chart-bar{height:130px}}
+</style>
+
+<style id="feedback-center-style">
+.feedback-drawer-overlay{position:fixed;inset:0;background:rgba(4,7,11,.78);backdrop-filter:blur(8px);z-index:25000;display:none;padding:20px}
+.feedback-drawer-overlay.open{display:flex}
+.feedback-drawer{width:min(980px,100%);height:min(88vh,820px);margin:auto;background:#11161c;border:1px solid #2b333d;border-radius:22px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,.65);display:flex;flex-direction:column}
+.feedback-drawer-head{display:flex;justify-content:space-between;gap:20px;padding:22px 24px;border-bottom:1px solid #252c34;background:#151a20}
+.feedback-kicker-admin{font-size:10px;letter-spacing:2px;color:#f28b30;font-weight:900}
+.feedback-drawer-head h2{margin:5px 0 4px;font-size:24px;color:#fff}.feedback-drawer-head p{margin:0;color:#8d96a3;font-size:12px}
+.feedback-close{width:38px;height:38px;border-radius:10px;border:1px solid #303944;background:#1b2128;color:#fff;font-size:24px;cursor:pointer}
+.feedback-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px 24px;border-bottom:1px solid #252c34}
+.feedback-stat{background:#181e25;border:1px solid #29313b;border-radius:14px;padding:12px}.feedback-stat span{display:block;color:#8d96a3;font-size:10px}.feedback-stat strong{display:block;color:#fff;font-size:21px;margin-top:3px}
+.feedback-list{overflow:auto;padding:18px 24px;display:grid;gap:10px}
+.feedback-card{background:#171d24;border:1px solid #29313b;border-radius:16px;padding:15px}
+.feedback-card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.feedback-stars-admin{color:#f2a44b;letter-spacing:2px;font-size:15px}.feedback-branch{font-size:10px;color:#f28b30;font-weight:900;text-transform:uppercase;background:#241b14;padding:5px 8px;border-radius:999px}
+.feedback-meta{display:flex;flex-wrap:wrap;gap:10px;color:#8d96a3;font-size:10px;margin-top:7px}.feedback-comment{margin-top:10px;color:#e7ebef;font-size:12px;line-height:1.6;background:#12171c;padding:10px;border-radius:10px}
+.feedback-empty{text-align:center;padding:50px 15px;color:#8d96a3}
+@media(max-width:650px){.feedback-drawer-overlay{padding:8px}.feedback-drawer{height:94vh;border-radius:16px}.feedback-drawer-head{padding:18px}.feedback-summary{padding:12px;grid-template-columns:1fr 1fr}.feedback-list{padding:12px}.feedback-stat:last-child{grid-column:1/-1}}
+</style>
+
+</head>
+<body>
+
+<audio id="orderBell" src="bell.mp3.mp3" preload="auto"></audio>
+<div id="additionToast" style="display:none;position:fixed;top:18px;right:18px;z-index:20000;background:#15191e;border:1px solid #f28b30;color:#fff;padding:14px 18px;border-radius:10px;box-shadow:0 15px 40px rgba(0,0,0,.4);font-weight:800;">➕ New addition to an existing order</div>
+<style>
+.addition-banner{background:#3a2815;color:#ffc47a;border:1px solid #8b5b27;padding:9px 11px;border-radius:7px;font-size:12px;font-weight:900;margin-bottom:10px}
+.addition-row{background:#21190f!important;border-right:3px solid #f28b30}
+.feedback-admin{margin-top:10px;padding:9px 11px;background:#11161b;border:1px solid #292f37;border-radius:7px;font-size:12px}
+.feedback-admin b{color:#f28b30}
+</style>
+
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-erp-card">
+        <section class="login-form-panel">
+            <div class="login-brand-row"><div class="login-brand-mark">W</div><div><div class="login-brand">ENG <span>WAGEH</span></div><div class="login-subtitle">ERP • RESTAURANT MANAGEMENT SYSTEM</div></div></div>
+            <div class="login-divider"></div>
+            <div class="login-welcome">Welcome Back 👋</div>
+            <div class="login-hint">Sign in to manage your restaurant and run your system</div>
+            <label class="login-label">Email Address</label>
+            <div class="login-field"><span>✉</span><input type="email" id="emailInput" placeholder="name@example.com" autocomplete="username"></div>
+            <label class="login-label">Password</label>
+            <div class="login-field"><span>🔒</span><input type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password"></div>
+            <div class="login-options"><label class="login-remember"><input type="checkbox"> Remember me</label><span class="login-forgot">Secure Access</span></div>
+            <button class="btn-login" id="loginBtn" onclick="loginWithFirebase()"><span>Sign In</span><b>←</b></button>
+            <div class="login-error" id="loginErrorMsg">Login failed. Please check your credentials.</div>
+            <div class="login-footer">ENG WAGEH ERP <span>•</span> Premium Restaurant Management</div>
+        </section>
+        <section class="login-visual-panel">
+            <div class="visual-brand">ENG WAGEH</div><div class="orb one"></div><div class="orb two"></div><div class="orb three"></div><div class="tube a"></div><div class="tube b"></div><div class="tube c"></div>
+            <div class="visual-copy"><h2>Manage your<br>Restaurant, <span>Smarter</span></h2><p>Everything you need to manage sales, inventory, costs, recipes, and analytics in one system.</p></div>
+        </section>
+    </div>
+</div>
+
+<div class="premium-drawer" id="financeDrawer">
+    <div class="drawer-header-top">
+        <h3 id="financeDrawerTitle" style="margin:0; font-weight:900; color:var(--gold-glow); font-size: 20px;"> Finance & Revenue</h3>
+        <button class="btn-close-x" onclick="toggleFinanceDrawer(false)">×</button>
+    </div>
+    
+    <div class="drawer-finance-box">
+        <div class="sub-matrix-card" style="border-right: 4px solid var(--neon-blue);">
+            <p>Current Shift Revenue </p>
+            <h3 id="shiftRevenueField" style="color: var(--neon-blue);">0 EGP</h3>
+        </div>
+        
+        <div class="top-item-badge-box">
+            <p style="margin:0 0 6px 0; font-size:12px; font-weight:bold; color:var(--text-secondary);">Top Item This Shift</p>
+            <strong id="topShiftItemField" style="font-size:15px; color:var(--gold-glow);">Analyzing... </strong>
+        </div>
+
+        <div class="sub-matrix-card" style="border-right: 4px solid var(--gold-pure);">
+            <p>Total Today (All Shifts) </p>
+            <h3 id="dailyRevenueField" style="color: var(--gold-glow);">0 EGP</h3>
+        </div>
+        <div class="sub-matrix-card" style="border-right: 4px solid var(--neon-green);">
+            <p>Weekly Sales (Last 7 Days) </p>
+            <h3 id="weeklyRevenueField" style="color: var(--neon-green);">0 EGP</h3>
+        </div>
+        <div class="sub-matrix-card" style="border-right: 4px solid #9b59b6;">
+            <p>Total Monthly Revenue </p>
+            <h3 id="monthlyRevenueField" style="color: #af7ac5;">0 EGP</h3>
+        </div>
+    </div>
+</div>
+
+<div class="premium-drawer" id="reportsDrawer">
+    <div class="drawer-header-top">
+        <h3 style="margin:0; font-weight:900; color:var(--neon-blue); font-size: 20px;">🏅 Customer List & Preferences</h3>
+        <button class="btn-close-x" onclick="toggleReportsDrawer(false)">×</button>
+    </div>
+    <table class="side-table">
+        <thead>
+            <tr><th> Customer / Favorite Preference</th><th style="text-align:center;"> Orders</th><th> Branch</th></tr>
+        </thead>
+        <tbody id="customersTableBody">
+            <tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">Loading live data...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="feedback-drawer-overlay" id="feedbackDrawer">
+  <div class="feedback-drawer">
+    <div class="feedback-drawer-head">
+      <div>
+        <div class="feedback-kicker-admin">CUSTOMER VOICE</div>
+        <h2>⭐ Feedback Center</h2>
+        <p id="feedbackDrawerSubtitle">Customer ratings and comments</p>
+      </div>
+      <button class="feedback-close" onclick="toggleFeedbackDrawer(false)">×</button>
+    </div>
+    <div class="feedback-summary" id="feedbackSummary"></div>
+    <div class="feedback-list" id="feedbackList">
+      <div class="feedback-empty">Loading feedback...</div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-wrapper" id="adminMainWrapper">
+    
+    <div class="admin-header">
+        <div class="header-title-crypto">ENG WAGEH ERP — PREMIUM CONTROL</div>
+        
+        <div class="shift-interactive-card">
+            <span id="shiftStatusIndicator" class="shift-status-pill day">Shift: Morning</span>
+            <button class="btn-toggle-shift-master" onclick="toggleAndLiquidateShiftMaster()">
+                Switch Shift
+            </button>
+        </div>
+    </div>
+
+    <div class="control-ribbon">
+        <button class="btn-premium-action btn-finance-style" onclick="toggleFinanceDrawer(true)">Finance & Revenue</button>
+        <button class="btn-premium-action" onclick="toggleFeedbackDrawer(true)">⭐ Feedback</button>
+        <button class="btn-premium-action" onclick="toggleReportsDrawer(true)">Customers</button>
+        <select id="branchSelect" class="premium-select" onchange="switchAdminBranch()">
+            <option value="main">Main Branch (Manager)</option>
+            <option value="swan_lake">Swan Lake Branch</option>
+            <option value="pyramids">Pyramids Branch</option>
+        </select>
+        
+        <button class="btn-premium-action btn-logout-style" onclick="logoutFromFirebaseMaster()">Sign Out</button>
+    </div>
+
+    <div class="orders-grid" id="ordersGridContainer">
+        <p style="text-align: center; grid-column: 1/-1; color: var(--text-secondary); padding: 50px; font-weight:600;">Waiting for live Firebase synchronization... </p>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDBuBOcY9mbCXZIVIhkTjOhaor4VsrTPx8",
+        authDomain: "scan-order-system.firebaseapp.com",
+        projectId: "scan-order-system",
+        storageBucket: "scan-order-system.firebasestorage.app",
+        messagingSenderId: "1066014113516",
+        appId: "1:1066014113516:web:61ef0f2dc366b0e9d8afc9",
+        databaseURL: "https://scan-order-system-default-rtdb.firebaseio.com"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+
+    let localOrdersCounter = 0;
+    let globalActiveOrders = {};
+    let currentShiftGlobalString = "Morning"; 
+    
+    let currentUserRole = "cashier";
+    let currentUserBranch = "main";
+
+    // قاموس لترجمة وعرض أسماء الفروع بشكل جمالي ومفهوم
+    const branchNamesDictionary = {
+        "main": "Main Branch",
+        "manager": "Main Branch",
+        "swan_lake": "Swan Lake Branch",
+        "pyramids": "Pyramids Branch"
+    };
+
+    // 📡 الحارس الحي الفعلي لجلسة المستخدم (Firebase Auth Observer)
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // جلب صلاحيات وفرع اليوزر من الداتابيز مباشرة عند تسجيل الدخول
+            database.ref('users/' + user.uid).once('value', (snapshot) => {
+                const userData = snapshot.val();
+                
+                if (userData) {
+                    currentUserRole = userData.role || "cashier"; 
+                    currentUserBranch = userData.branch || "main"; 
+                    
+                    if (currentUserRole === "super_admin") {
+                        // لو سوبر أدمن، يظهر اختيار الفروع ويتحكم بكل شيء
+                        document.getElementById('branchSelect').style.display = "inline-block";
+                        document.querySelector('.header-title-crypto').innerText = `ENG WAGEH ERP — Main Management`;
+                    } else {
+                        // لو كاشير أو يوزر عادي تظهر لوحة الفرع الخاص به مباشرة ويتم قفل الاختيار
+                        document.getElementById('branchSelect').style.display = "none";
+                        document.getElementById('branchSelect').value = currentUserBranch;
+                        
+                        const friendlyBranchName = branchNamesDictionary[currentUserBranch] || currentUserBranch.toUpperCase();
+                        document.querySelector('.header-title-crypto').innerText = `ENG WAGEH ERP — Branch: ${friendlyBranchName}`;
+                    }
+
+                    document.getElementById('loginOverlay').style.display = "none";
+                    document.getElementById('adminMainWrapper').style.display = "block";
+                    
+                    loadInitialShiftConfig();
+                } else {
+                    alert("⚠️ This account is registered but has no valid role or branch assigned in the users database node!");
+                    auth.signOut();
+                }
+            });
+        } else {
+            document.getElementById('adminMainWrapper').style.display = "none";
+            document.getElementById('loginOverlay').style.display = "flex";
+            stopLiveListeners();
+        }
+    });
+
+    // 🔑 دالة تسجيل الدخول
+    function loginWithFirebase() {
+        const email = document.getElementById('emailInput').value.trim();
+        const password = document.getElementById('passwordInput').value.trim();
+        const errorMsg = document.getElementById('loginErrorMsg');
+        const loginBtn = document.getElementById('loginBtn');
+
+        if (!email || !password) {
+            errorMsg.innerText = "Please enter your email and password first! ⚠️";
+            errorMsg.style.display = "block";
+            return;
+        }
+
+        loginBtn.innerText = ".....Wiat";
+        loginBtn.disabled = true;
+
+        auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            errorMsg.style.display = "none";
+            loginBtn.innerText = "sign in ";
+            loginBtn.disabled = false;
+        })
+        .catch((error) => {
+            console.error("Firebase Auth Error:", error.message);
+            errorMsg.innerText = "❌.......Error";
+            errorMsg.style.display = "block";
+            loginBtn.innerText = "Try again  ";
+            loginBtn.disabled = false;
+        });
+    }
+
+    //  دالة تسجيل الخروج
+    function logoutFromFirebaseMaster() {
+        if(confirm("Do you want to sign out and end the current work session? ")) {
+            auth.signOut().then(() => {
+                alert("Signed out successfully and the control panel is secured! 👋");
+            }).catch((error) => {
+                alert("Sign-out error: " + error.message);
+            });
+        }
+    }
+
+    function stopLiveListeners() {
+        const branch = document.getElementById('branchSelect').value;
+        database.ref('branches/' + branch + '/checkpoints/current_active_shift').off();
+        database.ref('branches/' + branch + '/archive').off();
+        database.ref('branches/' + branch + '/orders').off();
+        database.ref('branches/' + branch + '/customers').off();
+    }
+
+    function loadInitialShiftConfig() {
+        const branch = document.getElementById('branchSelect').value;
+        
+        // إيقاف أي ليسنر قديم قبل بدء الجديد لمنع تداخل الفروع عند التبديل
+        database.ref('branches/main/checkpoints/current_active_shift').off();
+        database.ref('branches/swan_lake/checkpoints/current_active_shift').off();
+        database.ref('branches/pyramids/checkpoints/current_active_shift').off();
+        
+        database.ref('branches/' + branch + '/checkpoints/current_active_shift').on('value', (shiftSnap) => {
+            if(shiftSnap.exists()) {
+                currentShiftGlobalString = shiftSnap.val();
+            } else {
+                currentShiftGlobalString = "Morning";
+            }
+            updateShiftUIOnly();
+            loadOrdersAndFinancialsLive();
+        });
+    }
+
+    function updateShiftUIOnly() {
+        const pill = document.getElementById('shiftStatusIndicator');
+        if(currentShiftGlobalString === "Morning") {
+            pill.innerText = "Shift: Morning";
+            pill.className = "shift-status-pill day";
+        } else {
+            pill.innerText = "🌙 Shift: Evening";
+            pill.className = "shift-status-pill night";
+        }
+    }
+
+    //  دالة تدوير الوردية وتحديث شاشة العرض حياً فور التحديث
+    function toggleAndLiquidateShiftMaster() {
+        const branch = document.getElementById('branchSelect').value;
+        const targetShift = (currentShiftGlobalString === "Morning") ? "Evening" : "Morning";
+        const friendlyName = branchNamesDictionary[branch] || branch.toUpperCase();
+        
+        let confirmMsg = ` Close the (${currentShiftGlobalString}) shift and reset the branch [ ${friendlyName} ] balance to start the (${targetShift}) shift?`;
+        
+        if(currentShiftGlobalString === "Evening" && targetShift === "Morning") {
+            confirmMsg += `\n\n⚠️ Note: switching from (Evening → Morning) marks the end of the business day. Today's sales checkpoint will be reset for this branch.`;
+        }
+
+        if(confirm(confirmMsg)) {
+            const nowTime = Date.now();
+            const updates = {};
+
+            updates['branches/' + branch + '/checkpoints/current_active_shift'] = targetShift;
+            updates['branches/' + branch + '/checkpoints/shift_checkpoint'] = nowTime;
+
+            if(currentShiftGlobalString === "Evening" && targetShift === "Morning") {
+                updates['branches/' + branch + '/checkpoints/daily_checkpoint'] = nowTime;
+            }
+
+            database.ref().update(updates).then(() => {
+                alert(`🚀 Shift switched to (${targetShift}) successfully for ${friendlyName}!`);
+                currentShiftGlobalString = targetShift;
+                updateShiftUIOnly();
+                loadOrdersAndFinancialsLive();
+            }).catch((err) => {
+                alert("Shift switch error: " + err.message);
+            });
+        }
+    }
+
+
+    function toggleFeedbackDrawer(open) {
+        const el = document.getElementById('feedbackDrawer');
+        if (!el) return;
+        el.classList.toggle('open', !!open);
+        if (open) loadFeedbackCenter();
+    }
+
+    function feedbackStarsHtml(rating) {
+        const r = Math.max(0, Math.min(5, Number(rating) || 0));
+        return '★'.repeat(r) + '☆'.repeat(5-r);
+    }
+
+    function feedbackDate(v) {
+        const n = Number(v);
+        if (!n) return '—';
+        return new Date(n).toLocaleString('en-GB', {dateStyle:'medium', timeStyle:'short'});
+    }
+
+    function loadFeedbackCenter() {
+        const list = document.getElementById('feedbackList');
+        const summary = document.getElementById('feedbackSummary');
+        const subtitle = document.getElementById('feedbackDrawerSubtitle');
+        if (!list || !summary) return;
+
+        list.innerHTML = '<div class="feedback-empty">Loading feedback...</div>';
+        const isSuper = currentUserRole === 'super_admin';
+        const branches = isSuper ? ['main','swan_lake','pyramids'] : [currentUserBranch];
+
+        if (subtitle) subtitle.innerText = isSuper
+            ? 'All branches • ratings, comments and customer experience'
+            : (branchNamesDictionary[currentUserBranch] || currentUserBranch) + ' • customer feedback';
+
+        Promise.all(branches.map(branch =>
+            Promise.all([
+                database.ref('branches/' + branch + '/feedback').once('value').then(snap => {
+                    const data = snap.val() || {};
+                    return Object.keys(data).map(k => ({...data[k], branch, _key:k}));
+                }),
+                database.ref('branches/' + branch + '/archive').once('value').then(snap => {
+                    const data = snap.val() || {};
+                    return Object.keys(data).filter(k => data[k] && data[k].feedback).map(k => ({...data[k].feedback, branch, _key:'archive_'+k}));
+                })
+            ]).then(parts => parts.flat()).catch(() => [])
+        )).then(groups => {
+            const all = groups.flat();
+            const dedupe = {};
+            all.forEach(x => { dedupe[String(x.orderId || x._key)] = x; });
+            const rows = Object.values(dedupe).sort((a,b) => Number(b.submittedAt||0)-Number(a.submittedAt||0));
+
+            const count = rows.length;
+            const avg = count ? (rows.reduce((sum,x)=>sum + Number(x.rating||0),0)/count).toFixed(1) : '0.0';
+            const five = rows.filter(x=>Number(x.rating)===5).length;
+
+            summary.innerHTML = `
+              <div class="feedback-stat"><span>Total Reviews</span><strong>${count}</strong></div>
+              <div class="feedback-stat"><span>Average Rating</span><strong>★ ${avg}</strong></div>
+              <div class="feedback-stat"><span>5-Star Reviews</span><strong>${five}</strong></div>`;
+
+            if (!rows.length) {
+                list.innerHTML = '<div class="feedback-empty">No feedback has been submitted yet.</div>';
+                return;
+            }
+
+            list.innerHTML = rows.map(x => {
+                const branchLabel = branchNamesDictionary[x.branch] || String(x.branch || '').replace(/_/g,' ');
+                const comment = String(x.comment || '').replace(/[<>]/g,'');
+                const name = String(x.customerName || 'Guest').replace(/[<>]/g,'');
+                const order = String(x.orderId || '—').replace(/[<>]/g,'');
+                return `
+                <div class="feedback-card">
+                  <div class="feedback-card-top">
+                    <div>
+                      <div class="feedback-stars-admin">${feedbackStarsHtml(x.rating)}</div>
+                      <div class="feedback-meta">
+                        <span>👤 ${name}</span>
+                        <span>🧾 ${order}</span>
+                        <span>🪑 Table ${x.tableNum || '—'}</span>
+                        <span>🕒 ${feedbackDate(x.submittedAt)}</span>
+                      </div>
+                    </div>
+                    <span class="feedback-branch">${branchLabel}</span>
+                  </div>
+                  ${comment ? `<div class="feedback-comment">${comment}</div>` : '<div class="feedback-comment" style="color:#7f8995;">No written comment.</div>'}
+                </div>`;
+            }).join('');
+        });
+    }
+
+    function loadOrdersAndFinancialsLive() {
+        const selectedBranch = document.getElementById('branchSelect').value;
+        const friendlyName = branchNamesDictionary[selectedBranch] || selectedBranch.toUpperCase();
+        
+        document.getElementById('financeDrawerTitle').innerText = ` Finance — ${friendlyName}`;
+
+        // تنظيف مستمعي الأوردرات والأرشيف للفروع الأخرى
+        database.ref('branches/main/orders').off();
+        database.ref('branches/swan_lake/orders').off();
+        database.ref('branches/pyramids/orders').off();
+        database.ref('branches/main/archive').off();
+        database.ref('branches/swan_lake/archive').off();
+        database.ref('branches/pyramids/archive').off();
+
+        database.ref('branches/' + selectedBranch + '/archive').on('value', (snapshot) => {
+            const archiveData = snapshot.val() || {};
+            calculateFinancialDashboard(archiveData, selectedBranch);
+        });
+
+        syncCustomersDatabaseLive(selectedBranch);
+
+        database.ref('branches/' + selectedBranch + '/orders').on('value', (snapshot) => {
+            const container = document.getElementById('ordersGridContainer');
+            container.innerHTML = "";
+
+            const orders = snapshot.val() || {};
+            globalActiveOrders = orders;
+
+            const count = Object.keys(orders).length;
+            if (count === 0) {
+                localOrdersCounter = 0;
+                container.innerHTML = `<p style="text-align:center;grid-column:1/-1;color:var(--text-secondary);padding:60px;font-weight:bold;font-size:15px;">🪑 No active orders in ${friendlyName} right now.</p>`;
+                return;
+            }
+
+            // Notify only for a genuinely new order OR a new addition to an existing order.
+            const seenKey = 'ew_seen_orders_' + selectedBranch;
+            let seen = {};
+            try { seen = JSON.parse(localStorage.getItem(seenKey) || '{}'); } catch(e) { seen = {}; }
+
+            let shouldRing = false;
+            Object.keys(orders).forEach(key => {
+                const order = orders[key] || {};
+                const id = String(order.orderId || key);
+                const signature = String(order.lastAdditionId || order.updatedAt || order.createdAt || order.timestamp || key);
+
+                if (seen[id] && seen[id] !== signature) shouldRing = true;
+                if (!seen[id] && localOrdersCounter !== 0) shouldRing = true;
+                seen[id] = signature;
+            });
+            localStorage.setItem(seenKey, JSON.stringify(seen));
+
+            if (shouldRing) {
+                const bell = document.getElementById('orderBell');
+                if (bell) {
+                    bell.currentTime = 0;
+                    bell.play().catch(() => {});
+                }
+                const toast = document.getElementById('additionToast');
+                if (toast) {
+                    toast.innerText = '🔔 طلب جديد أو إضافة جديدة للطاولة';
+                    toast.style.display = 'block';
+                    setTimeout(() => toast.style.display = 'none', 5000);
+                }
+            }
+            localOrdersCounter = count;
+
+            const renderedSet = new Set();
+
+            Object.keys(orders).forEach(key => {
+                const order = orders[key] || {};
+                const realId = order.orderId || key;
+                if (renderedSet.has(realId)) return;
+                renderedSet.add(realId);
+
+                let itemsHtml = "";
+                if (Array.isArray(order.items)) {
+                    order.items.forEach(item => {
+                        const unitPrice = Number(item.price || 0);
+                        const lineTotal = unitPrice * Number(item.qty || 0);
+                        itemsHtml += `
+                            <div class="item-data-row">
+                                <span>☕ ${item.name} <small style="opacity:.65;">(${unitPrice.toLocaleString()} EGP)</small>${item.itemNote ? `<small style="display:block;color:#b97832;margin-top:4px;">📝 ${String(item.itemNote).replace(/[<>]/g,'')}</small>` : ''}</span>
+                                <span><span class="qty-pill-badge">x${item.qty}</span> <strong style="margin-left:7px;">${lineTotal.toLocaleString()} EGP</strong></span>
+                            </div>`;
+                    });
+                }
+
+                let additionsHtml = '';
+                if (Array.isArray(order.lastAdditionItems) && order.lastAdditionItems.length) {
+                    const added = order.lastAdditionItems.map(item => {
+                        const unitPrice = Number(item.price || 0);
+                        const lineTotal = unitPrice * Number(item.qty || 0);
+                        return `<div class="item-data-row addition-row">
+                            <span>➕ ${item.name} <small style="opacity:.75;">(${unitPrice.toLocaleString()} EGP)</small>${item.itemNote ? `<small style="display:block;color:#b97832;margin-top:4px;">📝 ${String(item.itemNote).replace(/[<>]/g,'')}</small>` : ''}</span>
+                            <span><span class="qty-pill-badge">x${item.qty}</span> <strong style="margin-left:7px;">${lineTotal.toLocaleString()} EGP</strong></span>
+                        </div>`;
+                    }).join('');
+                    additionsHtml = `<div class="addition-banner">🔔 إضافة جديدة — ${Number(order.lastAdditionTotal || 0).toLocaleString()} EGP</div>${added}`;
+                }
+
+                const card = document.createElement('div');
+                const cName = order.customerName || "Walk-in Customer";
+                const badgeHtml = `<span class="rank-tag-badge" style="background:#131e36;color:#fff;"> Dine-in Customer</span>`;
+                const billBanner = order.billRequested ? `<div class="bill-alert-neon">💸 Customer is requesting the bill now!</div>` : '';
+                const oTime = order.time || 'Now';
+
+                card.className = "order-card-flexible";
+                card.innerHTML = `
+                    <div>
+                        ${billBanner}
+                        <div class="card-row-top">
+                            <span class="table-headline">🪑 Table ${order.tableNum || '??'}</span>
+                            <span class="order-token-style">${selectedBranch.toUpperCase()}</span>
+                        </div>
+                        <div class="info-line"> Name: <strong>${cName}</strong> ${badgeHtml}</div>
+                        <div class="info-line"> Time: <strong>${oTime}</strong></div>
+                        <div class="info-line" style="color:var(--neon-blue);font-weight:bold;">⚡ Status: ${order.status || 'Waiting'}</div>
+                        <div class="item-list-container">
+                            ${additionsHtml}
+                            ${itemsHtml}
+                        </div>
+                        ${order.orderNote ? `<div class="feedback-admin"><b>📝 ملاحظة الأوردر:</b> ${String(order.orderNote).replace(/[<>]/g,'')}</div>` : ''}
+                        ${order.lastAdditionNote ? `<div class="feedback-admin"><b>📝 ملاحظة الإضافة:</b> ${String(order.lastAdditionNote).replace(/[<>]/g,'')}</div>` : ''}
+                        ${order.feedback ? `<div class="feedback-admin"><b>⭐ Feedback:</b> ${Number(order.feedback.rating||0)}/5 — ${String(order.feedback.comment||'No comment').replace(/[<>]/g,'')}</div>` : ''}
+                    </div>
+                    <div>
+                        <div class="total-bill-row">Net Total: ${Number(order.totalPrice || 0).toLocaleString()} EGP</div>
+                        <div class="dual-buttons-row">
+                            <button class="btn-panel-action done-prep" onclick="markOrderReady('${selectedBranch}', '${key}')">✔ ✔ Order Ready</button>
+                            <button class="btn-panel-action done-cash" onclick="liquidateOrderFinal('${selectedBranch}', '${key}')">💸 💸 Paid</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        });
+    }
+
+    function markOrderReady(branch, firebaseKey) {
+        const orderData = globalActiveOrders[firebaseKey];
+        if(!orderData) return;
+        const cleanId = orderData.orderId || firebaseKey;
+
+        const updates = {};
+        const statusText = "Ready for Pickup ☕✨";
+        updates['branches/' + branch + '/orders/' + firebaseKey + '/status'] = statusText;
+        updates['branches/' + branch + '/orders/' + cleanId + '/status'] = statusText;
+
+        database.ref().update(updates).then(() => {
+            alert("Order readiness signal sent to the customer! ✔");
+        });
+    }
+
+    function liquidateOrderFinal(branch, firebaseKey) {
+        const orderData = globalActiveOrders[firebaseKey];
+        if(!orderData) return;
+
+        const tNum = orderData.tableNum;
+        const cleanOrderId = orderData.orderId || firebaseKey;
+        const cName = orderData.customerName || "Walk-in Customer";
+
+        // No confirmation dialog: cashier can close/clear the table directly.
+        const removeUpdates = {};
+        removeUpdates['branches/' + branch + '/orders/' + firebaseKey] = null;
+        removeUpdates['branches/' + branch + '/orders/' + cleanOrderId] = null;
+        removeUpdates['orders/' + cleanOrderId] = null;
+        removeUpdates['orders/ORD-' + cleanOrderId] = null;
+
+        if(tNum) {
+            removeUpdates['branches/' + branch + '/tables/' + tNum] = {
+                status: "empty",
+                currentOrder: null,
+                orderId: null
+            };
+        }
+
+        const archiveRef = database.ref('branches/' + branch + '/archive').push();
+        removeUpdates['branches/' + branch + '/archive/' + archiveRef.key] = {
+            orderId: cleanOrderId,
+            customerName: cName,
+            tableNum: tNum || null,
+            totalPrice: parseFloat(orderData.totalPrice || 0),
+            items: orderData.items || [],
+            shiftType: currentShiftGlobalString,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        database.ref().update(removeUpdates).then(() => {
+            if(cName !== "Walk-in Customer") {
+                const customerRef = database.ref('branches/' + branch + '/customers/' + cName);
+                customerRef.once('value').then((snap) => {
+                    const cInfo = snap.val() || { totalOrders: 0 };
+                    const currentCount = parseInt(cInfo.totalOrders || 0) + 1;
+                    customerRef.set({
+                        totalOrders: currentCount,
+                        lastVisit: new Date().toLocaleDateString('ar-EG') + " " + new Date().toLocaleTimeString('ar-EG')
+                    });
+                });
+            }
+            alert(`💸 Payment received. Table ${tNum || ''} cleared and order archived.`);
+        }).catch(err => {
+            alert("Could not close the order: " + err.message);
+        });
+    }
+
+    function calculateFinancialDashboard(archive, branch) {
+        let shiftTotal = 0;
+        let dailyTotal = 0;
+        let weeklyTotal = 0;
+        let monthlyTotal = 0;
+        let shiftItemsMap = {};
+
+        const now = new Date();
+        const startOfTodayInitial = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+        const startOfWeekly = startOfTodayInitial - (7 * 24 * 60 * 60 * 1000);
+        const startOfMonthly = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+
+        database.ref('branches/' + branch + '/checkpoints').once('value', (snapCheck) => {
+            const checkData = snapCheck.val() || {};
+            const lastShiftCheck = checkData.shift_checkpoint || 0;
+            const lastDailyCheck = checkData.daily_checkpoint || startOfTodayInitial;
+
+            Object.keys(archive).forEach(k => {
+                const rec = archive[k];
+                const price = parseFloat(rec.totalPrice || 0);
+                const timestamp = rec.timestamp || startOfTodayInitial;
+
+                if(timestamp >= lastShiftCheck) {
+                    shiftTotal += price;
+                    if(rec.items && Array.isArray(rec.items)) {
+                        rec.items.forEach(it => {
+                            shiftItemsMap[it.name] = (shiftItemsMap[it.name] || 0) + parseInt(it.qty || 1);
+                        });
+                    }
+                }
+                
+                if(timestamp >= lastDailyCheck) dailyTotal += price;
+                if(timestamp >= startOfWeekly) weeklyTotal += price;
+                if(timestamp >= startOfMonthly) monthlyTotal += price;
+            });
+
+            document.getElementById('shiftRevenueField').innerText = shiftTotal + " EGP";
+            document.getElementById('dailyRevenueField').innerText = dailyTotal + " EGP";
+            document.getElementById('weeklyRevenueField').innerText = weeklyTotal + " EGP";
+            document.getElementById('monthlyRevenueField').innerText = monthlyTotal + " EGP";
+
+            let topItemName = "No Shift Sales";
+            let maxQty = 0;
+            Object.keys(shiftItemsMap).forEach(name => {
+                if(shiftItemsMap[name] > maxQty) {
+                    maxQty = shiftItemsMap[name];
+                    topItemName = `${name} (${maxQty} times)`;
+                }
+            });
+            document.getElementById('topShiftItemField').innerText = topItemName;
+        });
+    }
+
+    function syncCustomersDatabaseLive(selectedBranch) {
+        database.ref('branches/main/customers').off();
+        database.ref('branches/swan_lake/customers').off();
+        database.ref('branches/pyramids/customers').off();
+
+        const tbody = document.getElementById('customersTableBody');
+        tbody.innerHTML = "";
+
+        if (currentUserRole === "super_admin") {
+            let allBranchesData = { main: {}, swan_lake: {}, pyramids: {} };
+
+            const renderAdminReport = () => {
+                tbody.innerHTML = "";
+                let hasData = false;
+
+                Object.keys(allBranchesData).forEach(bName => {
+                    Object.keys(allBranchesData[bName]).forEach(cName => {
+                        hasData = true;
+                        const cData = allBranchesData[bName][cName];
+                        const total = cData.totalOrders || 1;
+
+                        tbody.innerHTML += `
+                            <tr>
+                                <td> <strong>${cName}</strong><span class="fav-food-text">Last Visit: ${cData.lastVisit || 'Not Recorded'}</span></td>
+                                <td style="text-align:center; font-weight:bold; color:var(--neon-blue);">${total}</td>
+                                <td><span class="branch-identity-badge"> Branch: ${(branchNamesDictionary[bName] || bName.toUpperCase())}</span></td>
+                            </tr>`;
+                    });
+                });
+
+                if(!hasData) {
+                    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">No customers are registered in any branch yet.</td></tr>`;
+                }
+            };
+
+            ['main', 'swan_lake', 'pyramids'].forEach(bKey => {
+                database.ref(`branches/${bKey}/customers`).on('value', (snap) => {
+                    allBranchesData[bKey] = snap.val() || {};
+                    renderAdminReport();
+                });
+            });
+
+        } else {
+            database.ref(`branches/${selectedBranch}/customers`).on('value', (snap) => {
+                tbody.innerHTML = "";
+                const branchCustomers = snap.val() || {};
+                
+                let hasData = false;
+                Object.keys(branchCustomers).forEach(cName => {
+                    hasData = true;
+                    const cData = branchCustomers[cName];
+                    const total = cData.totalOrders || 1;
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td> <strong>${cName}</strong><span class="fav-food-text">Last Visit: ${cData.lastVisit || 'Not Recorded'}</span></td>
+                            <td style="text-align:center; font-weight:bold; color:var(--neon-blue);">${total}</td>
+                            <td><span class="branch-identity-badge"> Current Branch</span></td>
+                        </tr>`;
+                });
+
+                if(!hasData) {
+                    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:var(--text-secondary);">No customers are registered for your branch right now.</td></tr>`;
+                }
+            });
+        }
+    }
+
+    function toggleFinanceDrawer(open) { document.getElementById('financeDrawer').classList.toggle('open', open); }
+    function toggleReportsDrawer(open) { document.getElementById('reportsDrawer').classList.toggle('open', open); }
+</script>
+
+<style>
+/* ===== ENG WAGEH ERP — PREMIUM UI ===== */
+.erp-module-btns{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0;justify-content:center}
+.erp-module-btn{border:1px solid #27324a;background:linear-gradient(145deg,#111a2c,#0b1220);color:#eaf0ff;border-radius:14px;padding:13px 20px;font-weight:800;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,.25)}
+.erp-module-btn:hover{border-color:#d8a93a;transform:translateY(-2px)}
+.erp-overlay{position:fixed;inset:0;background:rgba(3,7,15,.88);backdrop-filter:blur(18px);z-index:9500;display:none;padding:20px}
+.erp-overlay.open{display:flex}
+.erp-shell{width:min(1450px,100%);height:calc(100vh - 40px);margin:auto;background:#0b1220;border:1px solid #26334c;border-radius:24px;overflow:hidden;display:grid;grid-template-columns:230px 1fr;box-shadow:0 30px 90px rgba(0,0,0,.65)}
+.erp-side{background:#080e19;border-left:1px solid #202c42;padding:22px 14px;display:flex;flex-direction:column;gap:8px}
+.erp-brand{padding:8px 10px 22px;border-bottom:1px solid #1d293d;margin-bottom:8px}.erp-brand strong{display:block;font-size:22px;letter-spacing:.5px;color:#fff}.erp-brand span{font-size:11px;color:#8d9bb8}
+.erp-side-btn{border:0;background:transparent;color:#aeb9d0;text-align:right;padding:14px 14px;border-radius:12px;font-weight:800;cursor:pointer}.erp-side-btn:hover,.erp-side-btn.active{background:#141e31;color:#fff}.erp-side-btn.active{box-shadow:inset -3px 0 #e2b23d}
+.erp-main{overflow:auto;padding:28px}.erp-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:24px}.erp-heading h1{margin:0;font-size:28px}.erp-heading p{margin:7px 0 0;color:#8190ac;font-size:13px}.erp-close{border:1px solid #33405a;background:#111a2b;color:#fff;border-radius:12px;padding:10px 15px;cursor:pointer;font-weight:800}
+.erp-panel{display:none}.erp-panel.active{display:block}.erp-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}.erp-kpi{background:linear-gradient(145deg,#111b2d,#0c1422);border:1px solid #24314a;border-radius:16px;padding:18px}.erp-kpi span{display:block;color:#8795b0;font-size:12px;margin-bottom:8px}.erp-kpi b{font-size:24px;color:#fff}.erp-kpi small{display:block;margin-top:7px;color:#65748f}
+.erp-card{background:#0f1828;border:1px solid #24314a;border-radius:18px;padding:20px;margin-bottom:16px}.erp-card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.erp-card h3{margin:0;font-size:17px}.erp-form{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.erp-input{width:100%;background:#080f1c;color:#fff;border:1px solid #293650;border-radius:11px;padding:12px;outline:none}.erp-input:focus{border-color:#d8a93a}.erp-action{border:0;border-radius:11px;background:#d8a93a;color:#101010;padding:11px 15px;font-weight:900;cursor:pointer}.erp-action:hover{filter:brightness(1.08)}.erp-secondary{background:#1a263b;color:#dce5f8}.erp-danger{background:#43202a;color:#ff9eab}.erp-table-wrap{overflow:auto}.erp-table{width:100%;border-collapse:separate;border-spacing:0 7px;min-width:720px}.erp-table th{text-align:right;color:#71809c;font-size:11px;padding:8px 12px}.erp-table td{background:#0a1220;padding:13px 12px;border-top:1px solid #1c2940;border-bottom:1px solid #1c2940;font-size:13px}.erp-table td:first-child{border-radius:0 10px 10px 0;border-right:1px solid #1c2940}.erp-table td:last-child{border-radius:10px 0 0 10px;border-left:1px solid #1c2940}.erp-good{color:#44dfad;font-weight:800}.erp-bad{color:#ff6575;font-weight:800}.erp-note{background:#0a1220;border:1px dashed #33425f;border-radius:12px;padding:14px;color:#8d9bb8;font-size:12px}.recipe-builder{display:grid;grid-template-columns:1.3fr .7fr;gap:16px}.recipe-draft{display:flex;flex-direction:column;gap:8px;margin-top:12px}.recipe-row{display:flex;align-items:center;gap:10px;background:#0a1220;border:1px solid #202e46;padding:10px;border-radius:10px}.recipe-row span{flex:1;color:#dfe7f6}.recipe-row b{font-size:12px}.status-pill{display:inline-flex;padding:5px 9px;border-radius:20px;background:#17233a;color:#b8c7e2;font-size:11px;font-weight:800}.status-low{background:#3a2027;color:#ff8795}.status-ok{background:#123328;color:#53e0af}
+@media(max-width:950px){.erp-shell{grid-template-columns:1fr}.erp-side{display:flex;flex-direction:row;overflow:auto;border-left:0;border-bottom:1px solid #202c42}.erp-brand{display:none}.erp-side-btn{white-space:nowrap}.erp-grid{grid-template-columns:repeat(2,1fr)}.erp-form{grid-template-columns:repeat(2,1fr)}.recipe-builder{grid-template-columns:1fr}}
+@media(max-width:600px){.erp-grid{grid-template-columns:1fr}.erp-form{grid-template-columns:1fr}.erp-main{padding:16px}}
+/* Compact management shortcuts — clean ERP navigation */
+.compact-shortcuts{display:flex!important;align-items:center;gap:8px;padding:10px 12px!important;background:#101722!important;border:1px solid #263244!important;border-radius:12px!important;box-shadow:none!important;margin-bottom:14px!important;flex-wrap:wrap}
+.shortcut-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#748199;font-weight:700;margin-right:4px;padding-right:8px;border-right:1px solid #283346}
+.shortcut-btn{width:auto!important;min-width:86px!important;height:42px!important;padding:0 11px!important;border-radius:9px!important;background:#151e2b!important;border:1px solid #273449!important;color:#b9c4d5!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;font-size:11px!important;font-weight:700!important;box-shadow:none!important;transform:none!important}
+.shortcut-btn:hover{background:#1b2738!important;border-color:#39485d!important;color:#fff!important;transform:none!important;box-shadow:none!important}
+.shortcut-btn.active{background:#1c2735!important;border-color:#e58a2b!important;color:#fff!important}
+.shortcut-icon{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;border-radius:6px;background:#0d141e;color:#e58a2b;font-size:14px;font-weight:800}
+@media(max-width:600px){.shortcut-label{width:100%;border-right:0;border-bottom:1px solid #283346;padding:0 0 7px;margin:0}.shortcut-btn{flex:1;min-width:70px!important}}
+
+</style>
+
+<div class="erp-module-btns compact-shortcuts">
+  <div class="shortcut-label">Management</div>
+  <button class="erp-module-btn shortcut-btn active" onclick="openERPModule('products')"><span class="shortcut-icon">▦</span><span>Products</span></button>
+  <button class="erp-module-btn shortcut-btn" onclick="openERPModule('sales')"><span class="shortcut-icon">↗</span><span>Sales</span></button>
+  <button class="erp-module-btn shortcut-btn" onclick="openERPModule('finance')"><span class="shortcut-icon">₤</span><span>Finance</span></button>
+</div>
+
+<div id="erpModule" class="erp-overlay">
+ <div class="erp-shell">
+  <aside class="erp-side">
+   <div class="erp-brand"><strong>ENG WAGEH</strong><span>RESTAURANT MANAGEMENT</span></div>
+   <button class="erp-side-btn active" data-tab="products" onclick="switchERPPanel('products')">Products</button>
+   <button class="erp-side-btn" data-tab="sales" onclick="switchERPPanel('sales')">Sales Analysis</button>
+   <button class="erp-side-btn" data-tab="finance" onclick="switchERPPanel('finance')">Financial Analysis</button>
+   <button class="erp-side-btn" onclick="closeERPModule()">Back to Dashboard</button>
+  </aside>
+
+  <main class="erp-main">
+   <div class="erp-top">
+    <div class="erp-heading"><h1 id="erpPageTitle">Products</h1><p id="erpPageSubtitle">Control what customers can see and order.</p></div>
+    <button class="erp-close" onclick="closeERPModule()">×</button>
+   </div>
+
+   <section id="erp-products" class="erp-panel active">
+    <div class="erp-grid">
+     <div class="erp-kpi"><span>Total Products</span><b id="productCount">0</b><small>In this branch</small></div>
+     <div class="erp-kpi"><span>Available</span><b id="availableCount">0</b><small>Visible to guests</small></div>
+     <div class="erp-kpi"><span>Unavailable</span><b id="unavailableCount">0</b><small>Hidden from guests</small></div>
+     <div class="erp-kpi"><span>Active Orders</span><b id="productActiveOrders">0</b><small>Live right now</small></div>
+    </div>
+
+    <div class="erp-card product-create-card">
+     <div class="erp-card-head"><div><h3>Add Product</h3><p class="erp-note">If the product is available, guests can see and order it. If unavailable, it is hidden.</p></div></div>
+     <div class="erp-form" style="grid-template-columns:1.5fr .8fr 1fr auto">
+      <input id="productName" class="erp-input" placeholder="Product name — e.g. Cappuccino">
+      <input id="productPrice" class="erp-input" type="number" step="0.01" min="0" placeholder="Price (EGP)">
+      <input id="productCategory" class="erp-input" placeholder="Category — optional">
+      <button class="erp-action" onclick="addProduct()">+ Add Product</button>
+     </div>
+    </div>
+
+    <div class="erp-card">
+     <div class="erp-card-head"><h3>Product Availability</h3><span class="erp-note">ON = visible to guests &nbsp; / &nbsp; OFF = hidden</span></div>
+     <div class="erp-table-wrap"><table class="erp-table product-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Guest Visibility</th><th>Status</th><th>Action</th></tr></thead><tbody id="productsTable"></tbody></table></div>
+    </div>
+   </section>
+
+   <section id="erp-sales" class="erp-panel">
+    <div class="erp-grid">
+     <div class="erp-kpi"><span>Today Sales</span><b id="salesToday">0 EGP</b><small>Completed orders</small></div>
+     <div class="erp-kpi"><span>7 Days</span><b id="salesWeek">0 EGP</b><small>Rolling 7 days</small></div>
+     <div class="erp-kpi"><span>This Month</span><b id="salesMonth">0 EGP</b><small>Current month</small></div>
+     <div class="erp-kpi"><span>Average Ticket</span><b id="avgTicket">0 EGP</b><small>Per completed order</small></div>
+    </div>
+    <div class="erp-card">
+     <div class="erp-card-head"><h3>Sales Trend</h3><select id="salesRange" class="erp-input erp-range" onchange="renderBusinessAnalytics()"><option value="7">Last 7 Days</option><option value="30">Last 30 Days</option></select></div>
+     <div id="salesChart" class="sales-chart"></div>
+    </div>
+    <div class="erp-card">
+     <div class="erp-card-head"><h3>Product Performance</h3><span class="erp-note">Based on completed orders</span></div>
+     <div class="erp-table-wrap"><table class="erp-table"><thead><tr><th>Product</th><th>Units Sold</th><th>Revenue</th><th>Share</th></tr></thead><tbody id="productSalesTable"></tbody></table></div>
+    </div>
+   </section>
+
+   <section id="erp-finance" class="erp-panel">
+    <div class="erp-grid">
+     <div class="erp-kpi"><span>Today Revenue</span><b id="financeToday">0 EGP</b><small>Completed orders</small></div>
+     <div class="erp-kpi"><span>Week Revenue</span><b id="financeWeek">0 EGP</b><small>Last 7 days</small></div>
+     <div class="erp-kpi"><span>Month Revenue</span><b id="financeMonth">0 EGP</b><small>Current month</small></div>
+     <div class="erp-kpi"><span>All-Time Revenue</span><b id="financeAll">0 EGP</b><small>Archive total</small></div>
+    </div>
+    <div class="finance-summary-grid">
+      <div class="erp-card"><span class="summary-label">Completed Orders</span><strong id="financeOrders">0</strong></div>
+      <div class="erp-card"><span class="summary-label">Average Order Value</span><strong id="financeAov">0 EGP</strong></div>
+      <div class="erp-card"><span class="summary-label">Best Selling Product</span><strong id="financeTopProduct">—</strong></div>
+      <div class="erp-card"><span class="summary-label">Peak Sales Hour</span><strong id="financePeakHour">—</strong></div>
+    </div>
+    <div class="erp-card">
+      <div class="erp-card-head"><h3>Financial Breakdown</h3><span class="erp-note">Revenue only — no cost or recipe calculations</span></div>
+      <div id="financeBreakdown" class="finance-breakdown"></div>
+    </div>
+   </section>
+  </main>
+ </div>
+</div>
+
+<script>
+/* ===== ENG WAGEH ERP — Products + Sales + Finance ===== */
+let erpBranch='main', erpProducts={}, erpArchive={};
+let erpOrders={};
+
+const erpTitles={
+  products:{title:'Products',sub:'Control what customers can see and order.'},
+  sales:{title:'Sales Analysis',sub:'Understand revenue, order volume, and product performance.'},
+  finance:{title:'Financial Analysis',sub:'Track money coming in without cost or recipe calculations.'}
+};
+
+function switchAdminBranch(){
+  const b=document.getElementById('branchSelect');
+  const branch=(b&&b.value)||'main';
+  window.selectedBranch=branch;
+  loadInitialShiftConfig();
+  // If the Products/Sales/Finance module is already open, switch it immediately
+  // so product availability always belongs to the selected branch.
+  const module=document.getElementById('erpModule');
+  if(module && module.classList.contains('open')){
+    erpBranch=branch;
+    erpProducts={}; erpArchive={}; erpOrders={};
+    loadERPData();
+  }
+}
+
+function openERPModule(tab){
+  const b=document.getElementById('branchSelect');
+  erpBranch=(b&&b.value)||window.selectedBranch||'main';
+  document.getElementById('erpModule').classList.add('open');
+  switchERPPanel(tab||'products');
+  loadERPData();
+}
+function closeERPModule(){document.getElementById('erpModule').classList.remove('open');}
+function switchERPPanel(tab){
+  document.querySelectorAll('.erp-panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.erp-side-btn[data-tab]').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));
+  const p=document.getElementById('erp-'+tab); if(p)p.classList.add('active');
+  const t=document.getElementById('erpPageTitle'),sub=document.getElementById('erpPageSubtitle');
+  if(t)t.textContent=(erpTitles[tab]||{}).title||tab;
+  if(sub)sub.textContent=(erpTitles[tab]||{}).sub||'';
+  renderBusinessAnalytics();
+}
+function erpRef(path){return database.ref('branches/'+erpBranch+'/'+path)}
+function num(v){return Number(v)||0}
+function money(v){return num(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' EGP'}
+function safeName(v){return String(v||'').replace(/[<>]/g,'')}
+
+function loadERPData(){
+  if(typeof database==='undefined')return;
+  erpRef('products').off();
+  erpRef('menu').off();
+  erpRef('archive').off();
+  erpRef('orders').off();
+
+  erpRef('products').on('value',snap=>{erpProducts=snap.val()||{};renderProducts();renderBusinessAnalytics();});
+  /* Compatibility: read existing menu records if products has not been created yet. */
+  erpRef('menu').on('value',snap=>{
+    const menu=snap.val()||{};
+    if(Object.keys(erpProducts).length===0 && Object.keys(menu).length) {
+      erpProducts=menu; renderProducts(); renderBusinessAnalytics();
+    }
+  });
+  erpRef('archive').on('value',snap=>{erpArchive=snap.val()||{};renderBusinessAnalytics();});
+  erpRef('orders').on('value',snap=>{erpOrders=snap.val()||{};renderProducts();renderBusinessAnalytics();});
+}
+
+function productPayload(p){
+  return {
+    name:p.name,
+    product:p.name,
+    price:num(p.price),
+    category:p.category||'General',
+    available:Boolean(p.available),
+    isAvailable:Boolean(p.available),
+    active:Boolean(p.available),
+    visible:Boolean(p.available),
+    updatedAt:firebase.database.ServerValue.TIMESTAMP
+  };
+}
+
+function writeProductEverywhere(id,payload){
+  const updates={};
+  ['products','menu','menuItems'].forEach(path=>{updates['branches/'+erpBranch+'/'+path+'/'+id]=payload;});
+  return database.ref().update(updates);
+}
+
+function addProduct(){
+  const name=document.getElementById('productName').value.trim();
+  const price=num(document.getElementById('productPrice').value);
+  const category=document.getElementById('productCategory').value.trim()||'General';
+  if(!name){alert('Enter the product name');return;}
+  if(price<=0){alert('Enter a valid price');return;}
+  const id='product_'+Date.now();
+  const payload=productPayload({name,price,category,available:true});
+  writeProductEverywhere(id,payload).then(()=>{
+    ['productName','productPrice','productCategory'].forEach(x=>document.getElementById(x).value='');
+  }).catch(err=>alert('Could not save product: '+err.message));
+}
+
+function setProductAvailability(id,available){
+  const p=erpProducts[id]; if(!p)return;
+  const payload=productPayload({name:p.name||p.product,price:p.price,category:p.category,available});
+  writeProductEverywhere(id,payload).catch(err=>alert('Could not update product: '+err.message));
+}
+
+function renderProducts(){
+  const rows=Object.entries(erpProducts);
+  const tb=document.getElementById('productsTable'); if(!tb)return;
+  let available=0;
+  tb.innerHTML='';
+  rows.forEach(([id,p])=>{
+    const isOn=p.available===true || p.isAvailable===true || p.active===true || p.visible===true;
+    if(isOn)available++;
+    const name=safeName(p.name||p.product||'Unnamed Product');
+    const category=safeName(p.category||'General');
+    tb.innerHTML+=`<tr>
+      <td><b>${name}</b></td>
+      <td>${category}</td>
+      <td>${money(p.price)}</td>
+      <td><span class="availability-toggle ${isOn?'on':'off'}" onclick="setProductAvailability('${id}',${!isOn})"><i></i>${isOn?'ON':'OFF'}</span></td>
+      <td><span class="status-pill ${isOn?'status-ok':'status-low'}">${isOn?'Available':'Hidden'}</span></td>
+      <td><button class="erp-action erp-secondary" onclick="setProductAvailability('${id}',${!isOn})">${isOn?'Hide from Guests':'Show to Guests'}</button></td>
+    </tr>`;
+  });
+  document.getElementById('productCount').textContent=rows.length;
+  document.getElementById('availableCount').textContent=available;
+  document.getElementById('unavailableCount').textContent=rows.length-available;
+  document.getElementById('productActiveOrders').textContent=Object.keys(erpOrders||{}).length;
+  if(!rows.length)tb.innerHTML='<tr><td colspan="6" class="empty-cell">No products yet. Add your first product above.</td></tr>';
+}
+
+function archiveRows(){
+  return Object.values(erpArchive||{}).map(x=>({
+    ...x,
+    total:num(x.totalPrice||x.total||0),
+    ts:num(x.timestamp)
+  }));
+}
+function startOfDay(ts){const d=new Date(ts);return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();}
+function startOfMonth(ts){const d=new Date(ts);return new Date(d.getFullYear(),d.getMonth(),1).getTime();}
+function getMetrics(){
+  const now=Date.now(), today=startOfDay(now), month=startOfMonth(now), week=today-6*86400000;
+  const rows=archiveRows();
+  let all=0,day=0,w=0,m=0,dayOrders=0;
+  const products={}, hours={};
+  rows.forEach(o=>{
+    all+=o.total;
+    if(o.ts>=today){day+=o.total;dayOrders++;}
+    if(o.ts>=week)w+=o.total;
+    if(o.ts>=month)m+=o.total;
+    if(o.ts){const h=new Date(o.ts).getHours();hours[h]=(hours[h]||0)+o.total;}
+    if(Array.isArray(o.items))o.items.forEach(it=>{
+      const name=String(it.name||it.product||'Unknown Product');
+      const qty=num(it.qty||it.quantity||1);
+      const unit=num(it.price||it.unitPrice||0);
+      const revenue=unit>0?unit*qty:0;
+      if(!products[name])products[name]={qty:0,revenue:0};
+      products[name].qty+=qty;
+      products[name].revenue+=revenue;
+    });
+  });
+  const avg=rows.length?all/rows.length:0;
+  let top='—',peak='—';
+  Object.entries(products).sort((a,b)=>b[1].qty-a[1].qty).some(([n])=>{top=n;return true;});
+  const peakEntry=Object.entries(hours).sort((a,b)=>b[1]-a[1])[0];
+  if(peakEntry){const h=Number(peakEntry[0]);peak=(h<10?'0':'')+h+':00';}
+  return {rows,all,day,w,m,avg,dayOrders,products,hours,top,peak};
+}
+function renderBusinessAnalytics(){
+  const x=getMetrics();
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('salesToday',money(x.day));set('salesWeek',money(x.w));set('salesMonth',money(x.m));set('avgTicket',money(x.avg));
+  set('financeToday',money(x.day));set('financeWeek',money(x.w));set('financeMonth',money(x.m));set('financeAll',money(x.all));
+  set('financeOrders',x.rows.length.toLocaleString('en-US'));set('financeAov',money(x.avg));set('financeTopProduct',x.top);set('financePeakHour',x.peak);
+  renderSalesChart(x);
+  renderProductSales(x);
+  renderFinanceBreakdown(x);
+}
+function renderSalesChart(x){
+  const box=document.getElementById('salesChart');if(!box)return;
+  const days=num(document.getElementById('salesRange')?.value||7), now=new Date();const data=[];
+  for(let i=days-1;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);const key=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();const end=key+86400000;const value=x.rows.filter(o=>o.ts>=key&&o.ts<end).reduce((a,o)=>a+o.total,0);data.push({label:(d.getMonth()+1)+'/'+d.getDate(),value});}
+  const max=Math.max(...data.map(d=>d.value),1);
+  box.innerHTML=data.map(d=>`<div class="chart-col"><div class="chart-value">${d.value?Math.round(d.value).toLocaleString('en-US'):''}</div><div class="chart-bar"><span style="height:${Math.max(4,d.value/max*100)}%"></span></div><small>${d.label}</small></div>`).join('');
+}
+function renderProductSales(x){
+  const tb=document.getElementById('productSalesTable');if(!tb)return;tb.innerHTML='';
+  const arr=Object.entries(x.products).sort((a,b)=>b[1].qty-a[1].qty);const total=x.all||1;
+  arr.forEach(([name,p])=>{tb.innerHTML+=`<tr><td><b>${safeName(name)}</b></td><td>${p.qty}</td><td>${money(p.revenue)}</td><td>${(p.revenue/total*100).toFixed(1)}%</td></tr>`;});
+  if(!arr.length)tb.innerHTML='<tr><td colspan="4" class="empty-cell">No completed sales data yet.</td></tr>';
+}
+function renderFinanceBreakdown(x){
+  const box=document.getElementById('financeBreakdown');if(!box)return;
+  const periods=[['Today',x.day],['Last 7 Days',x.w],['This Month',x.m],['All Time',x.all]];
+  box.innerHTML=periods.map(p=>`<div class="finance-line"><span>${p[0]}</span><b>${money(p[1])}</b></div>`).join('');
+}
+
+renderBusinessAnalytics();
+</script>
+</body>
+</html>
